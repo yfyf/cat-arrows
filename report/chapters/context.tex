@@ -1,0 +1,129 @@
+\chapter{Context}
+
+In the summer of 1987 a group of computer scientists got high on the
+possibility of operating on infinite data structures through the use of
+*lazy*\footnote{Technically, the magic of treatable infinite data
+structures comes from the use of *non-strict* semantics, in which
+expressions are evaluated outside-in, and which therefore allow to
+extract partial results from non-terminating computations. Lazy
+evaluation, in which expressions are only evaluated as needed, is merely
+one way of implementing this behaviour. As however it is currently the
+only mainstream implementation technique and is often used synonymously
+in the literature, we will follow this habit.} programming language
+semantics\footcite[p. 3]{hask-history}. The occasion was a tutorial
+session on the functional programming language *Miranda*, one of the
+more mature exemplars of the many functional languages that sprang to
+life in the 1970s and 1980s. In the hope of liberation from the
+\emph{von Neumann} style, researchers had begun conceptual and practical
+work on languages in which functions were better aligned with their
+mathematical brethren. While all functional programming languages share
+the first-class malleability of functions and consider functions as
+mappings between values, lazy semantics take this idea to the extreme.
+
+Since expressions are only evaluated when their values are required for
+further computation, it becomes difficult to determine when a given
+expression might be evaluated. And in fact, in many cases, the values of
+certain expressions are computationally never needed, even though their
+execution is vital to a given program. The obvious example is output.
+From a purely computational perspective it is irrelevant, whereas for
+practical purposes a program without output is utterly useless.
+
+What, for example, would be the expected result of the list expression
+
+\begin{code}
+  [print 'a', print 'b', print 'c']
+\end{code}
+
+in a language which only evaluates this to
+
+\begin{code}
+  (print 'a'):[print 'b', print 'c']
+\end{code}
+
+until forced to actually produce a value for one of the members?
+
+It becomes clear that the result of such an expression in a lazy
+language would be dependent on how the expression is used in the
+program. But this is undesirable, as it would be preferable to easily
+determine the sequencing of output in a direct way.
+
+For simplicity reasons, lazy semantics therefore suggest the additional
+adoption of *pure* semantics, that is, to fully align functions in the
+programming language with (partial) functions in the mathematical sense.
+Hence a function maps each value of its domain to a value in its
+(lifted) codomain, and does nothing else.
+
+While purity of the language makes it easy to reason about programs, it
+introduces a lot of difficulty in interacting with the real world. Since
+interaction with the environment is not predictable, that is, not
+functional in the mathematical sense (at least from the closed world of
+the program), real word interaction such as keyboard input or random
+number generation can not be solved using functions, as their value
+under constant input is constant.
+
+The intuitive idea of opening up the closed world of the program, and
+making the \emph{world} part of the input would solve the problem, but
+would be very cumbersome. Formal variations of this strategy were
+actually implemented in initial versions of Haskell, but didn't
+contribute to an image of a \emph{serious} programming language.
+Solutions were inflexible and required manual adaptation of effectful
+functions.
+
+Concurrently Moggi was independently working on a related problem in
+denotational semantics for the $\lambda$-calculus. He was trying to
+devise a method for proving program equivalence for a general notion of
+computation, as opposed to the overly simplified method of
+$\beta\eta$-conversion, which reduces computation to total mappings from
+values to values. Moggi was interested in capturing ``behaviours like
+non-termination, non-determinism and side-effects, that can be exhibited
+by real programs''\cite[p. 1]{moggi-91}.
+
+Moggi was proposing a categorical semantics for programming languages in
+which each type as object $A$ would be separate from its type of
+corresponding \emph{computations} as object $TA$. $T$ here being called
+a ``notion of computation''\footcite[p. 3]{moggi-91}.
+
+\begin{blockquote}
+Rather than focusing on a specifc $T$, we want to find the general
+properties common to all notions of computation, therefore we impose as
+only requirement that programs should form a category. The aim of this
+section is to convince the reader [\ldots] that such a requirement
+amounts to say that $T$ is part of a Kleisli triple $(T,\eta,\_^\ast)$
+and that the category of programs is the Kleisli category for such a
+triple.
+\end{blockquote}
+
+Presumably one such reader, Philip Wadler, was so convinced, and adopted
+the idea for practical use in Haskell\footcite[7.2]{hask-history}. While
+it was initially interesting for its uniform interface to different
+computational patterns and not immediately adopted as a solution to the
+problem of input/output and side-effects, by the time the Haskell 98
+standard was finished it had been established as the standard solution
+to those problems.
+
+Interestingly, by then there had already been a computational pattern
+appearing in the Haskell community that did not fit the monad structure.
+In order to implement combinatorial parsers for context-free grammars
+efficiently, a different representation was desirable and implemented by
+Swierstra and Duponcheel (1996).
+
+A later paper by John Hughes generalized this notion of computation into
+an interface named \emph{arrows}, born out of practical considerations
+of actual language use. Now trying to go the other direction from
+practical motivation to theory, the goal became to find a categorical
+equivalent of arrows as described in Haskell.
+
+% FIXME Rephrase everything properly ...
+% TODO Somehow we are discussing the aptness of the Freyd
+% category/arrows equivalence. Atkey is noting that things are not quite
+% as they appear to be. At the same time, even for monads things are not
+% quite as they appear to be. It is not even completely clear how a
+% categorical interpretation of Haskell should look like.
+%
+% It would be interesting to note this, maybe in closing. In the end:
+% Does Atkey even give a more ``proper'' interpretation? Or does he
+% maybe just decide to look at Hask differently and thus generates a
+% slightly different result?
+%
+% Speaking with Marx: The mathematicians have only interpreted Hask
+% in various ways: the point, however, is to harvest good ideas.
