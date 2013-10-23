@@ -1,0 +1,65 @@
+\documentclass[12pt,a4paper,titlepage]{scrreprt}
+
+\usepackage[natbib=true,style=authoryear-ibid]{biblatex}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{verbatim}
+
+\hypersetup{
+    colorlinks,
+    linkcolor=black,
+    citecolor=black,
+    filecolor=black,
+    urlcolor=black
+}
+
+\newenvironment{code}{\begin{verbatim}}{\end{verbatim}}
+
+\bibliography{literature}
+
+\title{Cat-arrows}
+\author{%
+    Johannes Emerich
+        (\href{mailto:Johannes@emerich.de}{johannes@emerich.de})\\
+    Ignas Vyšniauskas
+        (\href{mailto:i.vysniauskas@gmail.com}{i.vysniauskas@gmail.com})
+}
+\date{}
+
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+    \begin{verbatim}
+ ________________________________________
+/   ___,                                 \
+|  /   |                                 |
+| |    |   ,_    ,_    __           ,    |
+| |    |  /  |  /  |  /  \_|  |  |_/ \_  |
+|  \__/\_/   |_/   |_/\__/  \/ \/   \/   |
+|                                        |
+|                                        |
+|                    _                   |
+|                   | |                  |
+|  __,   ,_    _    | |         _  _     |
+| /  |  /  |  |/    |/  |   |  / |/ |    |
+| \_/|_/   |_/|__/  |__/ \_/|_/  |  |_/o |
+|                   |\                   |
+\                   |/                   /
+ ----------------------------------------
+  \
+   \
+      /\_)o<
+     |      \
+     | O . O|
+      \_____/
+    \end{verbatim}
+\end{abstract}
+
+\input{chapters/context}
+
+\printbibliography
+
+\end{document}
