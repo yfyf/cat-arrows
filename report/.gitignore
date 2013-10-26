@@ -4,3 +4,5 @@
 *.log
 *.out
 *.pdf
+*.bcf
+*.run.xml
