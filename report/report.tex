@@ -1,9 +1,13 @@
 \documentclass[12pt,a4paper,titlepage]{scrreprt}
+\usepackage[utf8]{inputenc}
 
 \usepackage[natbib=true,style=authoryear-ibid]{biblatex}
 \usepackage{url}
 \usepackage{hyperref}
-\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{csquotes}
+
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
 
 \hypersetup{
     colorlinks,
@@ -12,8 +16,6 @@
     filecolor=black,
     urlcolor=black
 }
-
-\newenvironment{code}{\begin{verbatim}}{\end{verbatim}}
 
 \bibliography{literature}
 
@@ -32,30 +34,7 @@
 \maketitle
 
 \begin{abstract}
-    \begin{verbatim}
- ________________________________________
-/   ___,                                 \
-|  /   |                                 |
-| |    |   ,_    ,_    __           ,    |
-| |    |  /  |  /  |  /  \_|  |  |_/ \_  |
-|  \__/\_/   |_/   |_/\__/  \/ \/   \/   |
-|                                        |
-|                                        |
-|                    _                   |
-|                   | |                  |
-|  __,   ,_    _    | |         _  _     |
-| /  |  /  |  |/    |/  |   |  / |/ |    |
-| \_/|_/   |_/|__/  |__/ \_/|_/  |  |_/o |
-|                   |\                   |
-\                   |/                   /
- ----------------------------------------
-  \
-   \
-      /\_)o<
-     |      \
-     | O . O|
-      \_____/
-    \end{verbatim}
+    This is a report on Arrows.
 \end{abstract}
 
 \input{chapters/context}
