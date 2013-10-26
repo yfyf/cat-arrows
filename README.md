@@ -24,16 +24,19 @@ Here is a tentative table of contents:
                 backtrack and demand more rigorous analysis.
     3. Aligning Theory and Practice
        .... Preliminaries & redrawing Jabob &al's construction
-       3.1 A Categorial Model of Hask
-           .... How can we think of Haskell categorically, or more
-                generally, how can we think of pure computation
-                categorically?
-       3.2 Category Theoretical Preliminaries
-       3.3 Construction
-    4. Adjusting Alignment
-       .... Redraw Atkey's improved version
+       3.1 Category Theoretical Preliminaries
+       3.2 Construction
     5. Discussion
        .... Success and benefits of theoretical insights; The
             Awkwardness of modelling Hask
+
+If time permits:
+
+  * A Categorial Model of Hask
+    .... How can we think of Haskell categorically, or more
+         generally, how can we think of pure computation
+         categorically?
+  * Redraw Atkey's improved version
+    
 
 Hang tight!
