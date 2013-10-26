@@ -2,23 +2,23 @@
 
 In the summer of 1987 a group of computer scientists got high on the
 possibility of operating on infinite data structures through the use of
-*lazy*\footnote{Technically, the magic of treatable infinite data
-structures comes from the use of *non-strict* semantics, in which
-expressions are evaluated outside-in, and which therefore allow to
-extract partial results from non-terminating computations. Lazy
-evaluation, in which expressions are only evaluated as needed, is merely
-one way of implementing this behaviour. As however it is currently the
-only mainstream implementation technique and is often used synonymously
-in the literature, we will follow this habit.} programming language
-semantics\footcite[p. 3]{hask-history}. The occasion was a tutorial
-session on the functional programming language *Miranda*, one of the
-more mature exemplars of the many functional languages that sprang to
-life in the 1970s and 1980s. In the hope of liberation from the
-\emph{von Neumann} style, researchers had begun conceptual and practical
-work on languages in which functions were better aligned with their
-mathematical brethren. While all functional programming languages share
-the first-class malleability of functions and consider functions as
-mappings between values, lazy semantics take this idea to the extreme.
+\emph{lazy}\footnote{Technically, the magic of treatable infinite data
+structures comes from the use of \emph{non-strict} semantics, in which
+expressions are evaluated outside-in, and which therefore allow to extract
+partial results from non-terminating computations. Lazy evaluation, in which
+expressions are only evaluated as needed, is merely one way of implementing
+this behaviour. As however it is currently the only mainstream implementation
+technique and is often used synonymously in the literature, we will follow this
+habit.} programming language semantics\smartcite[p. 12-3]{hask-history}. The
+occasion was a tutorial session on the functional programming language
+\emph{Miranda}, one of the more mature exemplars of the many functional
+languages that sprang to life in the 1970s and 1980s. In the hope of liberation
+from the \emph{von Neumann} style\smartcite{backus}, researchers had begun
+conceptual and practical work on languages in which functions as language
+features were better aligned with their mathematical brethren. While all
+functional programming languages share the first-class malleability of
+functions and consider functions as mappings between values, lazy semantics
+take this idea to the extreme.
 
 Since expressions are only evaluated when their values are required for
 further computation, it becomes difficult to determine when a given
@@ -48,10 +48,10 @@ program. But this is undesirable, as it would be preferable to easily
 determine the sequencing of output in a direct way.
 
 For simplicity reasons, lazy semantics therefore suggest the additional
-adoption of *pure* semantics, that is, to fully align functions in the
-programming language with (partial) functions in the mathematical sense.
-Hence a function maps each value of its domain to a value in its
-(lifted) codomain, and does nothing else.
+adoption of \emph{pure} semantics\smartcite[p. 12-8]{hask-history}, that is, to
+fully align functions in the programming language with (partial) functions in
+the mathematical sense.  Hence a function maps each value of its domain to a
+value in its (lifted) codomain, and does nothing else.
 
 While purity of the language makes it easy to reason about programs, it
 introduces a lot of difficulty in interacting with the real world. Since
@@ -69,37 +69,33 @@ contribute to an image of a \emph{serious} programming language.
 Solutions were inflexible and required manual adaptation of effectful
 functions.
 
-Concurrently Moggi was independently working on a related problem in
-denotational semantics for the $\lambda$-calculus. He was trying to
-devise a method for proving program equivalence for a general notion of
-computation, as opposed to the overly simplified method of
-$\beta\eta$-conversion, which reduces computation to total mappings from
-values to values. Moggi was interested in capturing ``behaviours like
-non-termination, non-determinism and side-effects, that can be exhibited
-by real programs''\cite[p. 1]{moggi-91}.
+Concurrently Eugenio Moggi was independently working on a related problem in
+denotational semantics for the $\lambda$-calculus. He was trying to devise a
+method for proving program equivalence for a general notion of computation, as
+opposed to the overly simplified method of $\beta\eta$-conversion, which
+reduces computation to total mappings from values to values. Moggi was
+interested in capturing ``behaviours like non-termination, non-determinism or
+side-effects, that can be exhibited by real programs''\smartcite[p.
+1]{moggi-89}.
 
-Moggi was proposing a categorical semantics for programming languages in
-which each type as object $A$ would be separate from its type of
-corresponding \emph{computations} as object $TA$. $T$ here being called
-a ``notion of computation''\footcite[p. 3]{moggi-91}.
+For this he was proposing a categorical semantics for programming languages in
+which each type as object $B$ would be separate from its type of corresponding
+\emph{computations} as object $TB$. With $T$ being called a ``notion of
+computation'', the goal was this\smartcite[p. 2]{moggi-89}:
 
-\begin{blockquote}
-Rather than focusing on a specifc $T$, we want to find the general
-properties common to all notions of computation, therefore we impose as
-only requirement that programs should form a category. The aim of this
-section is to convince the reader [\ldots] that such a requirement
-amounts to say that $T$ is part of a Kleisli triple $(T,\eta,\_^\ast)$
-and that the category of programs is the Kleisli category for such a
-triple.
-\end{blockquote}
+\begin{quote}
+Rather than focus on specific notions of computations, we will identify the
+general properties that the object $TB$ of computations must have. The basic
+requirement is that programs should form a category, and the obvious choice for
+it is the Kleisli category for a monad.
+\end{quote}
 
-Presumably one such reader, Philip Wadler, was so convinced, and adopted
-the idea for practical use in Haskell\footcite[7.2]{hask-history}. While
-it was initially interesting for its uniform interface to different
-computational patterns and not immediately adopted as a solution to the
-problem of input/output and side-effects, by the time the Haskell 98
-standard was finished it had been established as the standard solution
-to those problems.
+This caught the attention of Philip Wadler, who adopted the idea for practical
+use in Haskell\smartcite[p. 12-23]{hask-history}. While it was initially
+interesting for its uniform interface to different computational patterns and
+not immediately adopted as a solution to the problem of input/output and
+side-effects, by the time the Haskell 98 standard was finished it had been
+established as the standard solution to those problems.
 
 Interestingly, by then there had already been a computational pattern
 appearing in the Haskell community that did not fit the monad structure.
