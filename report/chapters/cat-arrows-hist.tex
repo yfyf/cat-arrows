@@ -1,0 +1,61 @@
+\chapter{A short history of the categorical aspects of arrows}
+
+Unlike Monads, which were borrowed from category theory to model various
+computational behaviours, arrows were at first introduced by
+Hughes~\cite{hughes-monad2arr} purely as a computational concept. Hence
+categorical \emph{interpretations} of arrows came only as an afterthought.
+Unsurprisingly, a whole family of interpretations was thus born, which we try
+to describe briefly here. % and possibly expand on it later on
+
+The tale of the categorical semantics of arrows begins with a folklore
+statement
+\begin{displayquote}Arrows are Freyd categories.\end{displayquote}
+%% wtf -- this quoting is ugly -- want emph + quotemarks @TODO: fix
+which is perhaps first noted by Paterson~\cite{paterson}.
+
+This statement was first verified in detail by Heunen and
+Jacobs~\cite{arr-like-mon}. Since computationally arrows are a generalisation
+of monads, it is perhaps not so surprising that the situation turns out to be
+similar categorically. Namely, Heunen and Jacobs prove that arrows can be
+seen as monoids in categories of bifunctors $\opcat{\catC} \times \catC \to
+\catC$, just like monads are monoids in a category of endofunctors.
+Furthermore, they show there is a bijective correspondence between locally
+small Freyd categories $\catC \to \catD$ and arrows over $\catC$.
+
+However, the construction is slightly flawed due to issues with the size of
+$\catC$.\footnote{$\catC$ would need to be both small and (co)complete, however
+this is impossible~\cite[Chapter 3]{freyd-abelian-cats}} %% @TODO: insert citation
+Hence, the statement \enquote{Arrows are Freyd} is only proved for bifunctors
+on $\opcat{\catC} \times \catC \to \Sets$, where $\catC$ is \emph{small} (i.e.\ 
+profunctors) with an assumption that it would be possible to achieve the same
+result in an enriched setting.
+
+A later paper by Hasuo and Jacobs called ``Freyd is Kleisli, for
+Arrows''~\cite{freyd-is-kleisli} elaborates on the fact that the correspondence
+is actually an instance of the well-known Kleisli construction for monads,
+adapted for arrows. This again goes along with the general intuition that
+arrows are a generalisation of monads.
+
+%% @TODO: I'm not sure whether my interpretation of this is fully correct.
+%% In particular, I need to check whether they are just examining the same
+%% correspondance, or building something new.
+%% They seem to be talking about a 'monoidal' interpretation and a Freyd one,
+%% as of two different things...
+%% Perhaps it's best to re-iterate this statement after we write-up the
+%% 'meat' parts.
+
+Another paper by Jacobs, Heunen and Hasuo~\cite{cat-semantics-arr} combines the
+previous results into a self-contained paper and will be our primary reference.
+
+Finally, a paper by Atkey~\cite{atkey-fix} notes that the work of Jacobs et.~al
+slightly misinterprets the situation. Firstly, Atkey elaborates on the fact
+that it is necessary to consider enriched Freyd categories, because in order to
+provide denotational semantics for arrows one needs to consider a \emph{type}
+of morphisms between objects (which are types too), hence one needs at least
+some sort of self-enrichment. More importantly, Atkey observes that the
+\firstArr{} operator allows arrows to take \emph{unstructured} input. This does
+not fit-in with the simplified ``Arrows are Freyd'' view, because it implies
+that all computations are structured, which prevents modelling unstructured
+input. Atkey thus shows that one also needs to consider indexed Freyd categories and
+proves various relations between \{closed, indexed, enriched\} Freyd categories,
+arrows and strong monads.
