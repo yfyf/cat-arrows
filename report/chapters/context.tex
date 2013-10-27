@@ -9,11 +9,11 @@ partial results from non-terminating computations. Lazy evaluation, in which
 expressions are only evaluated as needed, is merely one way of implementing
 this behaviour. As however it is currently the only mainstream implementation
 technique and is often used synonymously in the literature, we will follow this
-habit.} programming language semantics\smartcite[p. 12-3]{hask-history}. The
+habit.} programming language semantics~\cite[p. 12-3]{hask-history}. The
 occasion was a tutorial session on the functional programming language
 \emph{Miranda}, one of the more mature exemplars of the many functional
 languages that sprang to life in the 1970s and 1980s. In the hope of liberation
-from the \emph{von Neumann} style\smartcite{backus}, researchers had begun
+from the \emph{von Neumann} style~\cite{backus}, researchers had begun
 conceptual and practical work on languages in which functions as language
 features were better aligned with their mathematical brethren. While all
 functional programming languages share the first-class malleability of
@@ -48,7 +48,7 @@ program. But this is undesirable, as it would be preferable to easily
 determine the sequencing of output in a direct way.
 
 For simplicity reasons, lazy semantics therefore suggest the additional
-adoption of \emph{pure} semantics\smartcite[p. 12-8]{hask-history}, that is, to
+adoption of \emph{pure} semantics~\cite[p. 12-8]{hask-history}, that is, to
 fully align functions in the programming language with (partial) functions in
 the mathematical sense.  Hence a function maps each value of its domain to a
 value in its (lifted) codomain, and does nothing else.
@@ -75,13 +75,13 @@ method for proving program equivalence for a general notion of computation, as
 opposed to the overly simplified method of $\beta\eta$-conversion, which
 reduces computation to total mappings from values to values. Moggi was
 interested in capturing ``behaviours like non-termination, non-determinism or
-side-effects, that can be exhibited by real programs''\smartcite[p.
+side-effects, that can be exhibited by real programs''~\cite[p.
 1]{moggi-89}.
 
 For this he was proposing a categorical semantics for programming languages in
 which each type as object $B$ would be separate from its type of corresponding
 \emph{computations} as object $TB$. With $T$ being called a ``notion of
-computation'', the goal was as follows\smartcite[p. 2]{moggi-89}:
+computation'', the goal was as follows~\cite[p. 2]{moggi-89}:
 
 \begin{quote}
 Rather than focus on specific notions of computations, we will identify the
@@ -91,7 +91,7 @@ it is the Kleisli category for a monad.
 \end{quote}
 
 This caught the attention of Philip Wadler, who adopted the idea for practical
-use in Haskell\smartcite[p. 12-23]{hask-history}. While it was initially
+use in Haskell~\cite[p. 12-23]{hask-history}. While it was initially
 interesting for its uniform interface to different computational patterns and
 not immediately adopted as a solution to the problem of input/output and
 side-effects, by the time the Haskell 98 standard was finished it had been
