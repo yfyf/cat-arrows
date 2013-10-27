@@ -8,6 +8,4 @@ SOURCES = ${TEXFILES} $(wildcard *.ltx) literature.bib
 
 ${PAPER}.pdf: ${SOURCES}
 	pdflatex ${PAPER}
-	biber ${PAPER}
-	pdflatex ${PAPER}
-	pdflatex ${PAPER}
+	(biber ${PAPER} && pdflatex ${PAPER} && pdflatex ${PAPER}) &> /dev/null &
