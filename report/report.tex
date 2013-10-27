@@ -11,14 +11,20 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 
-\newcommand{\catC}{\mathbb{C}}
-\newcommand{\catD}{\mathbb{D}}
+\newcommand{\catx}[1]{\mathbb{#1}}
+\newcommand{\catC}{\catx{C}}
+\newcommand{\catD}{\catx{D}}
+
 \newcommand{\opcat}[1]{{#1}^{\text{op}}}
 \newcommand{\Sets}{\mathbf{Sets}}
+\newcommand{\Cat}{\mathbf{Cat}}
 
 %% @TODO: invent some kid of inline 'code' style for this
 \newcommand{\firstArr}{\texttt{first}}
+
+\newtheorem{definition}{Definition}
 
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
 
@@ -52,6 +58,7 @@
 
 \input{chapters/context}
 \chapter{Modelling Computation in Theory and Practice}
+    \input{chapters/freyd-cats}
 \chapter{Categorical semantics of arrows (?)}
     \input{chapters/cat-arrows-hist}
 
