@@ -26,7 +26,7 @@ Here is a tentative table of contents:
        .... Preliminaries & redrawing Jabob &al's construction
        3.1 Category Theoretical Preliminaries
        3.2 Construction
-    5. Discussion
+    4. Discussion
        .... Success and benefits of theoretical insights; The
             Awkwardness of modelling Hask
 
