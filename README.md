@@ -37,6 +37,11 @@ If time permits:
          generally, how can we think of pure computation
          categorically?
   * Redraw Atkey's improved version
-    
 
-Hang tight!
+#### Styleguide
+
+  * Variables denoting categories: `\mathbb`
+  * Names of actual categories: `\mathbf`
+  * Objects of category `\mathbb{C}`: `|\mathbb{C}|`
+  * Object of a category: Uppercase math letters
+  * Haskell types: lowercase verbatim letters
