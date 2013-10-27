@@ -1,0 +1,50 @@
+\section{Arrows in Haskell}
+
+If all that computer programs do would be to operate on a fixed number of inputs
+to produce output at most one time (that is, to never halt or terminate with
+the result), pure language semantics would be sufficient. But real programs do
+much more than that. They are interactive, that is, they query the environment
+for input during runtime, and depend on this additional input for their runtime
+behavior. They cause effects in their environment by leveraging built-in
+capabilities of the machine they run on. They may run indefinitely, all the
+while periodically producing output.
+
+All of these types of computation are impossible to achieve with a pure
+language, so any general purpose programming language needs to have notions of
+computation to capture all of the above, and more.
+
+In Haskell, the most obvious type of a computation with input of type \verb|A|
+and output of type \verb|B| is the pure function type \verb|A -> B|, which is
+built from types \verb|A| and \verb|B| by the \verb|(->)| type constructor. It
+seems to make sense to adopt this notion of a computation being from something
+to something\footnote{We could always make it from or to some uninteresting
+fixed thing if we don't care about parameters or output.}, so we will generally
+expect any type of computation to be a two-parametric type.
+
+One of the powerful features of Haskell is the possibility of treating functions
+as values, empowering programmers to build up complex functionality from simple
+functions by assembling them using \emph{function combinators}. It seems
+sensible, though not necessary, to expect equivalent compositionality for other
+types of computation. The most basic kind of combinator for functions is
+composition, and we will require an analogue. Our common expectations for types
+of computations can be expressed in Haskell using a \emph{type class}.
+
+\begin{code}
+class Computation a where
+    (>>>) :: a b c -> a c d -> a b d
+\end{code}
+
+This in essence states that any type \verb|a| can be made a computation by
+giving an implementation of the ``composition'' function, \verb|(>>>)|,
+combining two computations \verb|a b c| and \verb|a c d| to a computation
+\verb|a b d|.
+
+Under these preconditions it seems clear that any pure function should always
+fulfill the requirements for any kind of computation, so we require additionally
+an embedding of pure functions into computation types, arriving at type class
+
+\begin{code}
+class Computation a where
+    arr   :: (b -> c) -> a b c
+    (>>>) :: a b c -> a c d -> a b d
+\end{code}
