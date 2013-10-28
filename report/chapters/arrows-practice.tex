@@ -13,9 +13,9 @@ All of these types of computation are impossible to achieve with a pure
 language, so any general purpose programming language needs to have notions of
 computation to capture all of the above, and more.
 
-In Haskell, the most obvious type of a computation with input of type \verb|A|
-and output of type \verb|B| is the pure function type \verb|A -> B|, which is
-built from types \verb|A| and \verb|B| by the \verb|(->)| type constructor. It
+In Haskell, the most obvious type of a computation with input of type \verb|a|
+and output of type \verb|b| is the pure function type \verb|a -> b|, which is
+built from types \verb|a| and \verb|b| by the \verb|(->)| type constructor. It
 seems to make sense to adopt this notion of a computation being from something
 to something\footnote{We could always make it from or to some uninteresting
 fixed thing if we don't care about parameters or output.}, so we will generally
@@ -30,8 +30,8 @@ composition, and we will require an analogue. Our common expectations for types
 of computations can be expressed in Haskell using a \emph{type class}.
 
 \begin{code}
-class Computation a where
-    (>>>) :: a b c -> a c d -> a b d
+  class Computation a where
+      (>>>) :: a b c -> a c d -> a b d
 \end{code}
 
 This in essence states that any type \verb|a| can be made a computation by
@@ -44,7 +44,82 @@ fulfill the requirements for any kind of computation, so we require additionally
 an embedding of pure functions into computation types, arriving at type class
 
 \begin{code}
-class Computation a where
-    arr   :: (b -> c) -> a b c
-    (>>>) :: a b c -> a c d -> a b d
+  class Computation a where
+      pure   :: (b -> c) -> a b c
+      (>>>)  :: a b c -> a c d -> a b d\textrm{.}
 \end{code}
+
+It should become clear from the act of choosing common requirements for
+computations that this is not the only possible interface. And in fact,
+historically, it was not the first approach implemented in Haskell. As sketched
+in the introduction, the related but similar notion of monads was adopted from
+category theory with requirements described by something akin to
+
+\begin{code}
+  class Monad m where
+      return :: a -> m a
+      fmap   :: (a -> b) -> m a -> m b
+      (>>=)  :: m a -> (a -> m b) -> m b\textrm{,}
+\end{code}
+
+with \verb|return| describing how to turn values of type \verb|a| into
+computations of type \verb|m a|, \verb|fmap| explaining how \verb|m| is an
+endofunctor on the category of types, and \verb|(>>=)| a combinator for monads
+and Kleisli arrows. With this model of computation, it is possible to model
+computations with a specific return type, but without regard to specifically
+\emph{structured} input of the computation.
+
+While this is convenient in many cases, the method of producing computations of
+type \verb|m b| from values of type \verb|a| by means of function application
+dooms the combinator \verb|(>>=)| to execute computation \verb|m a| before being
+able to actually construct a computation \verb|m b|. This sequencing means that
+it is impossible for the \verb|(>>=)| combinator to analyse commonalities in
+the input structure. Unfortunately, this property of the monad structure entails
+that certain optimisations are out of bounds.
+
+This is disappointing, as it limits the practicability of the monad as a general
+interface to computation. By the time this detriment became clear, illustrated
+in the work on LL(1) parsers by Swierstra and Duponcheel (\cite{swierstra}), the
+benefits of such a general interface had become clear however. This incited John
+Hughes's proposal of a notion of computation along the lines of above's
+\verb|Computation|, which he called \emph{arrows}\footnote{Why this name? The
+authors could not find an explanation in the literature, but as each kind of
+\emph{arrow} in Hughes's sense describes the arrows---that is, morphisms---in
+some category of data types, this seems like a likely reason.}.
+
+The \verb|Arrow| typeclass proposed in~\cite{hughes-monad2arr} contains one
+additional request atop \linebreak\verb|Computation|, as this is actually
+\emph{too} general. We can observe that its applicability is seriously
+diminished by the fact it gives no general way of combining the \emph{results}
+of computations. A concise way of enabling this kind of operation is the
+addition of the function \verb|first|:
+
+\begin{code}
+  class Arrow a where
+      arr   :: (b -> c) -> a b c
+      (>>>) :: a b c -> a c d -> a b d
+      first :: a b c -> a (b, d) (c, d)
+\end{code}
+
+This interface allows the definition of a kind of non-commutative product with
+signature,
+
+\begin{code}
+  (&&&) :: Arrow a => a b c -> a b d -> a b (c, d)\textrm{.}
+\end{code}
+
+The obvious instance of \verb|Arrow| is the pure function type \verb|(->)|. With
+\verb|(.)| being the composition function for pure functions, functions of the
+adequate types can be given by
+
+\begin{code}
+  instance Arrow (->) where
+      arr f     = f
+      (>>>) f g = (.) g f
+      first f   = \textbackslash(x, y) -> (f x, y)\textrm{,}
+\end{code}
+
+where the right-hand expression in the definition of \verb|first| is an
+anonymous function defined on pairs \verb|(x, y)|.
+
+% TODO Example of an actual NON-pure computation?
