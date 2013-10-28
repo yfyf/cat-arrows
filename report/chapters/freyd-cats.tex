@@ -1,0 +1,96 @@
+\section{Freyd categories}
+
+Freyd-categories were introduced by Power \& Robinson~\cite{pow-rob} as a type
+of symmetric premonoidal category where the monoidal structure is given by
+(the usual) \emph{product} operation. In the paper, this is merely a specific
+case of the general notion of symmetric premonoidal categories, which are
+proposed as generalisations of monoidal categories for modelling
+non-commutative computational effects, such as non-determinism, exceptions and
+concurrency.
+
+The actual name, \emph{Freyd-}, is given in a later paper by Power \&
+Thielecke~\cite{pow-thie} where Freyd-categories are examined as generalisations
+of Cartesian closed categories and closed Freyd-categories are shown to be
+models of Moggi's computational $\lambda$-calculus.
+
+It is important to note that, in particular, Power \& Robinson showed that
+Freyd-categories generalise strong monads, which were proposed by
+Moggi~\cite{moggi-89} as categorical constructs for modelling effectful
+computation. Hence the claimed computational-notion generalisations are
+directly proved via category theory.
+
+We shall now introduce the necessary notions to describe Freyd-categories and
+some basic results about them.
+
+\begin{definition}[Binoidal category]
+    A binoidal category is a category $\catC$ equipped with:
+    \begin{enumerate}
+        \item for each $(A, B)$ in $|\catC| \times |\catC|$, an object $A \otimes B$
+            in $|\catC|$;
+        \item for each $A$, a functor $(A \rtimes -) : B \mapsto A \otimes B$
+        \item for each $A$, a functor $(- \ltimes A) : B \mapsto B \otimes A$
+    \end{enumerate}
+\end{definition}
+
+The conditions imply that, $A \rtimes B = A \otimes B = A \ltimes B$,
+justifying the usage of the notation $A \otimes B$. Observe that this
+operation is defined only on objects of $\catC$ so far.
+
+\begin{definition}[Central morphism]
+    A morphism $f: A \to B$ in a binoidal category is \emph{central} if for
+    every morphism $g: A' \to B'$ the composites of maps (of the form $h
+    \ltimes C$ or $C \rtimes h$, where $C$ is either $A$ or $B$ and $h$ is
+    either $f$ or $g$) from $A \otimes A'$ to $B \otimes B'$ and from $A'
+    \otimes A$ to $B' \otimes B$ agree.
+
+    TODO: insert diagram
+\end{definition}
+
+A natural transformation is central if its components are central.
+
+Having these, we can now define the generalisation of monoidal category.
+
+\begin{definition}[Premonoidal category]
+    A \emph{premonoidal category} is a binoidal category equipped with:
+    \begin{enumerate}
+        \item an \emph{identity object} $I$
+        \item for all $A, B, C$, a natural central \emph{associator}
+            isomorphism $\alpha_{A,B,C}\colon (A \otimes B) \otimes C \to A
+            \otimes (B \otimes C)$
+        \item for each object $A$, natural central isomorphisms: \emph{left
+            unitor} $\lambda_A\colon A \otimes I \to A$ and \emph{right unitor}
+            $\rho_A\colon I \otimes A \to A$
+    \end{enumerate}
+
+    such that the usual monoidal category coherence conditions are satisfied,
+    i.e.~the pentagon law for $\alpha$ and triangle laws for $\alpha$,
+    $\lambda$, $\rho$ hold.
+
+\end{definition}
+
+A \emph{strict premonoidal category} is a premonoidal category in which all the
+isomorphisms described above are identities, the $\otimes$ operator is
+associative on objects and moreover $I$ is really an identity for $\otimes$.
+
+Note that a strict premonoidal category need not be a monoidal one.
+
+A \emph{symmetric premonoidal category} is a premonoidal category equipped with
+a central natural isomorphism $A\otimes B \cong B\otimes A$, with the usual
+coherence conditions of symmetric monoidal categories.
+
+The \emph{centre} of a premonoidal category $\catC$ is a subcategory $\catC'$,
+such that $|\catC| = |\catC'|$ and all the morphisms in $\catC'$ are central.
+
+The centre of a premonoidal category is a monoidal
+category~\cite[Prop.~3.1]{pow-rob}.
+Hence, a monoidal category is simply a premonoidal category in which all
+morphisms are central.
+
+We can now define Freyd categories.
+
+\begin{definition}[Freyd category]
+    A Freyd category consists of a category with finite products $\catC$
+    and an identity-on-objects strict symmetric premonoidal functor
+    \[ J: \catC \to \catx{K} \]
+    (hence $\catx{K}$ is a symmetric premonoidal category).
+\end{definition}
