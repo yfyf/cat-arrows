@@ -68,6 +68,24 @@ Having these, we can now define the generalisation of monoidal category.
 
 \end{definition}
 
+\begin{example}[Described in \cite{gen-comp-eff-models}]
+    Let $\catC$ be a category with finite products and $S$ a specified object
+    in $\catC$ (which we regard as \emph{state} or \emph{context}).
+
+    Let $\catx{K}$ be a category such that $|\catx{K}| = |\catC|$ and
+    $\catx{K}(X, Y) = \catC(S \times X, S \times Y)$, with composition in
+    $\catx{K}$ determined by the composition in $\catC$.
+
+    For any object $X$ of $\catC$, one has evident functors
+    $X \otimes -: \catx{K} \to \catx{K}$ and
+    $- \otimes X: \catx{K} \to \catx{K}$ extending the product in $\catC$.
+
+    The maps are not bifunctorial (with respect to $\otimes$), hence do not
+    yield a monoidal structure on $\catx{K}$. However, they do  yield a
+    premonoidal structure on $\catx{K}$.
+\end{example}
+%% @TODO: grok this example and explain it more.
+
 A \emph{strict premonoidal category} is a premonoidal category in which all the
 isomorphisms described above are identities, the $\otimes$ operator is
 associative on objects and moreover $I$ is really an identity for $\otimes$.
@@ -86,6 +104,10 @@ category~\cite[Prop.~3.1]{pow-rob}.
 Hence, a monoidal category is simply a premonoidal category in which all
 morphisms are central.
 
+A \emph{strict} (resp. \emph{symmetric}) \emph{premonoidal functor} is a functor which
+preserves the strict (resp. symmetric) premonoidal structure and sends central
+maps to central maps.
+
 We can now define Freyd categories.
 
 \begin{definition}[Freyd category]
@@ -94,3 +116,33 @@ We can now define Freyd categories.
     \[ J: \catC \to \catx{K} \]
     (hence $\catx{K}$ is a symmetric premonoidal category).
 \end{definition}
+
+The definitions of premonoidal categories, and especially Freyd categories,
+might seem a bit involved at first sight, however they arise as quite
+reasonable generalisations of monoidal categories when one deals with
+computational effects. It is hard to phrase this better than one of the
+``discoverers'' of Freyd categories, John Power~\cite{gen-comp-eff-models}:
+
+%% @TODO: shorten this and maybe come-up with own motivation / examples
+%% if there's time.
+\begin{quote}
+    The notion of Freyd-category has emerged over the past 15 years as a subtle
+    generalisation of the notion of category with finite products. It allows
+    one to model environments in call-by-value programming languages containing
+    computational effects, notably the $\lambda_c$-calculus, a variant of the
+    call-by-value $\lambda$-calculus designed specifically to allow one to account
+    for computational effects. Starting with the notion of category with finite
+    products, one obtains the notion of a symmetric monoidal category by
+    dropping insistence upon the existence of diagonals and projections: in
+    such situations, one usually speaks of a tensor product rather than a
+    product, corresponding to the relaxation from cartesian logic to linear
+    logic. If one further drops the insistence upon bifunctoriality of the
+    tensor product, one obtains the notion of a symmetric premonoidal category.
+    This corresponds logically to keeping the terms of linear logic but putting
+    fewer of them equal.  Just as one has cartesian closed categories and
+    symmetric monoidal closed categories, one can speak of closedness for a
+    symmetric premonoidal category too. Finally, if one reinstates the
+    assumption of finite product structure but only on a specified subcategory
+    of a putative symmetric premonoidal category, one has the notions of
+    Freyd-category and closed Freyd-category [\ldots]
+\end{quote}
