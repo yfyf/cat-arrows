@@ -116,7 +116,7 @@ adequate types can be given by
   instance Arrow (->) where
       arr f     = f
       (>>>) f g = (.) g f
-      first f   = \textbackslash(x, y) -> (f x, y)\textrm{,}
+      first f   = \symbol{92}(x, y) -> (f x, y)\textrm{,}
 \end{code}
 
 where the right-hand expression in the definition of \verb|first| is an
