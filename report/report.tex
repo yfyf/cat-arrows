@@ -26,7 +26,7 @@
 
 \newtheorem{definition}{Definition}
 
-\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small}
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small,commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}}
 
 \hypersetup{
     colorlinks,
@@ -58,9 +58,10 @@
 
 \input{chapters/context}
 \chapter{Modelling Computation in Theory and Practice}
+    \input{chapters/arrows-practice}
     \input{chapters/freyd-cats}
-\chapter{Categorical semantics of arrows (?)}
     \input{chapters/cat-arrows-hist}
+\chapter{Categorical semantics of arrows (?)}
 
 \nocite{mustard}
 \printbibliography
