@@ -105,8 +105,28 @@ This interface allows the definition of a kind of non-commutative product with
 signature,
 
 \begin{code}
-  (&&&) :: Arrow a => a b c -> a b d -> a b (c, d)\textrm{.}
+  (***) :: Arrow a => a b c -> a b' c' -> a (b, b') (c, c')\textrm{.}
 \end{code}
+
+In addition to the constraints expressed by the type class, the semantics of the
+functions are subject to a set of laws, the \emph{arrow laws}, which need to be
+verified by the author of each instance's implementation.
+
+\begin{code}[numbers=left]
+                (a >>> b) >>> c == a >>> (b >>> c)
+                    arr (g . f) == arr f >>> arr g
+                   arr id >>> a == a
+                              a == a >>> arr id
+            first a >>> arr fst == arr fst >>> a
+     first a >>> arr (id *** f) == arr (id *** f) >>> first a
+  first (first a) >>> arr assoc == arr assoc >>> first a
+                  first (arr f) == arr (f *** id)
+                first (a >>> b) == first a >>> first b
+\end{code}
+
+The function \verb|assoc| translates tuples \verb|((a,b),c)| to
+\verb|(a,(b,c))|, and the functions \verb|fst| and \verb|snd| produce the first
+and second position of a tuple, respectively.
 
 The obvious instance of \verb|Arrow| is the pure function type \verb|(->)|. With
 \verb|(.)| being the composition function for pure functions, functions of the
