@@ -47,16 +47,32 @@ the arrow operations:
         hom in $\catC$, hence we get that categorically \verb|arr| corresponds
         to a functor sending homs in $\catC$ to homs in the subcategory induced
         by $A$, i.e.: $arr: [B \Rightarrow C] \mapsto A(B, C)$. Alternatively, one
-        can say that $arr$ is a collection of natural transformations, sending
-        morphisms $B \to C$ in $\catC$ to morphisms in $A$.
-    \item \verb|(>>>)| is function of type \verb|a b c -> a c d -> a b d|
-        corresponding to a morphism\\
-        $\ggg: A(B, C) \to (A(C, D) \Rightarrow A(B, D))$.
-        Since we assume that $\catC$ is cartesian closed, we can transpose this
-        for a more usual categorical presentation of\\
-        $\ggg: A(B, C) \times A(C, D) \to A(B, D)$
-    \item \verb|first| is function of type
+        can say that $arr$ is a collection of natural transformations
+        $arr_{BC}$, sending morphisms $B \to C$ in $\catC$ to morphisms in $A$;
+    \item similarly, \verb|first| is function of type
         \verb|a b c -> a (b, d) (c, d)|
-        corresponding to a morphism\\
-        $first: A(B, C) \to A(B \times D,C \times D)$
+        corresponding to a family of morphisms\\
+        $first_{BCD}: A(B, C) \to A(B \times D,C \times D)$\\
+        or as a functor $first$ sending homs $A(-, +)$ to homs $A(- \times D, +
+        \times D)$;
+    \item finally, \verb|(>>>)| is function of type \verb|a b c -> a c d -> a b d|.
+        If $A$ were closed then, we could interpret \verb|(>>>)| as a
+        map\\
+        $\ggg_{BCD}: A(B, C) \to (A(C, D) \Rightarrow A(B, D))$.\\
+        However, this is not the case in general, so instead we can view
+        \verb|(>>>)| as a family of morphisms\\
+        $\ggg_{BCD}: A(B, C) \times A(C, D) \to A(B, D)$\\
 \end{itemize}
+
+We assume for now that our interpretations are correct (in particular, that the
+claimed natural transformations are actually natural) and move on to take a
+closer look at $\ggg$.
+
+\begin{lemma}[{\cite[Lemma~3.3]{arr-like-mon}}]
+    The maps $\ggg: A(X, P) \times (P, Y) \to A(X, Y)$ are natural in $X$,
+    $Y$ and dinatural in $P$.
+\end{lemma}
+
+Advanced category theory wizards upon spotting dinaturality take to looking
+for a tensor structure~\cite[p.~8]{arr-like-mon}. Hence we shall try to follow
+their path.
