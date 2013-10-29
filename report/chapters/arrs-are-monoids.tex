@@ -1,0 +1,62 @@
+\section{Arrows are monoids}
+
+%% Disclaimer: I allowed myself to freestyle here, so please read with
+%% suspicion.
+
+We now explore a rather simplified interpretation of arrows, mostly following
+the one initially described by Heunen \& Jacobs~\cite{arr-like-mon}. Our spirit
+here is to just assume that the naive categorical interpretations of arrow
+definitions are correct and then see what structure this gives us.
+Using this approach we end up with the fact that arrows can be seen as monoids
+on the category of bifunctors $\opcat{\catC} \times \catC \to \catC$.
+Moreover, we also obtain a (sloppy) bijection between Freyd categories and
+the aforementioned monoidal structure induced by arrows.
+
+Since arrows are first of all a computational notion in functional programming,
+to begin, we can, as usual, assume our working domain is some cartesian closed
+category $\catC$. In particular, we can consider $\catC$ to be the category
+$\Hask$ of Haskell types and functions.
+
+Having this domain in mind, we can try to provide a categorical interpretation
+of a Haskell \verb|(Arrow a)| instance. First, observe that every type
+constructor \verb|f :: * -> *| in Haskell induces a subcategory of $\Hask$
+where all types (i.e.~objects) are of the form \verb|f a|.  Similarly,
+the \verb|(Arrow a)| type constructor \verb|a| of kind \verb|* -> (* -> *)|
+also induces a subcategory of function types.\footnote{%
+For intuition, observe that e.g. the function type constructor
+\texttt{(->)} is of kind \texttt{* -> (* -> *)}}
+%% can't use \verb in footnote for mysterious reasons
+
+With these observations, we can deduce that it is reasonable to consider
+\verb|(Arrow a)| categorically as, firstly, a map $A$, whose object part is
+of the form $|\catC| \to |\catC \Rightarrow \catC|$, which after uncurrying
+becomes $|A|: |\catC| \times |\catC| \to |\catC|$. Moreover, since we want $A$
+to play nice with Haskell functions, we assume it is well-behaved with respect
+to morphisms in $\Hask$, which boils down to $A$ being bifunctorial.
+
+Moreover, we see $A$ is contravariant in the first variable and covariant in
+the second. Thus we can conclude that $A$ is in fact an endo-profunctor on
+$\catC$, i.e.~$A: \opcat{\catC} \times \catC \to \catC$. We later prove our
+assumptions are correct\footnote{It should be added: ``correct for the naive
+interpretation''} and now consider the additional structure induced by
+the arrow operations:
+
+\begin{itemize}
+    \item \verb|arr| is a function of type \verb|(b -> c) -> a b c|.
+        The categorical interpretation of a function type is simply an internal
+        hom in $\catC$, hence we get that categorically \verb|arr| corresponds
+        to a functor sending homs in $\catC$ to homs in the subcategory induced
+        by $A$, i.e.: $arr: [B \Rightarrow C] \mapsto A(B, C)$. Alternatively, one
+        can say that $arr$ is a collection of natural transformations, sending
+        morphisms $B \to C$ in $\catC$ to morphisms in $A$.
+    \item \verb|(>>>)| is function of type \verb|a b c -> a c d -> a b d|
+        corresponding to a morphism\\
+        $\ggg: A(B, C) \to (A(C, D) \Rightarrow A(B, D))$.
+        Since we assume that $\catC$ is cartesian closed, we can transpose this
+        for a more usual categorical presentation of\\
+        $\ggg: A(B, C) \times A(C, D) \to A(B, D)$
+    \item \verb|first| is function of type
+        \verb|a b c -> a (b, d) (c, d)|
+        corresponding to a morphism\\
+        $first: A(B, C) \to A(B \times D,C \times D)$
+\end{itemize}
