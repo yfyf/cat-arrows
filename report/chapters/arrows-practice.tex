@@ -124,7 +124,8 @@ verified by the author of each instance's implementation.
                 first (a >>> b) == first a >>> first b
 \end{code}
 
-The function \verb|assoc| translates tuples \verb|((a,b),c)| to
+Note that \verb|(***)| as used in the laws is the product on \emph{pure}
+functions. The function \verb|assoc| translates tuples \verb|((a,b),c)| to
 \verb|(a,(b,c))|, and the functions \verb|fst| and \verb|snd| produce the first
 and second position of a tuple, respectively.
 

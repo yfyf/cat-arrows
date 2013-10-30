@@ -36,16 +36,74 @@ how Freyd categories give rise to arrows.
 We shall now show that this gives rise to a Freyd category.
 
 \begin{lemma}
-    For an arrow $A : \opcat{\catC} \times \catC \to \catC$, the category
-    $\catC_A$, together with $\catC$ and $J_A : \catC \to \catC_A$ forms a
-    Freyd category.
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ over a category
+    $\catC$ with finite products, the category $\catC_A$, together with $\catC$
+    and $J_A : \catC \to \catC_A$ forms a Freyd category.
 \end{lemma}
 
 % The proof, the proof, the proof is on fire.
 \begin{proof}
     To see that $\catC_A$ is symmetric premonoidal, take $I$ to be the initial
-    object of $\catC_A$ and define $X \otimes Y := X \times Y$ -- through which
-    the associator, unitors and commutator are given as the obvious operations
-    on products -- extended to a functor by setting, for $f: X \to Y$, $f
-    \ltimes Z := first_Z(f)$, and $Z \rtimes f := second_Z(f)$.
+    object of $\catC_A$ and define $\alpha_{X, Y, Z}^{\catC_A} := arr(\alpha_{X,
+    Y, Z}), \lambda^{\catC_A}_X := arr(\lambda_X), \rho^{\catC_A}_X :=
+    arr(\rho_X),$ and $\gamma^{\catC_A}_{X, Y} := arr(\gamma_{X, Y})$. The
+    operation $X \otimes Y := X \times Y$ can be extended to a functor by
+    setting, for $f: X \to Y$, $f \ltimes Z := first_Z(f)$, and $Z \rtimes f :=
+    second_Z(f)$.
+    % TODO Does this suffice to show $\catC_A$ is premonoidal?
+
+    Since $J_A$ is the identity on objects and $arr$ on morphisms, it only
+    remains to show that it also preserves central maps. Let then $f: X \to X'$
+    be some morphism from $\catC$ (hence it is central). We need to verify that
+    $J_Af$ is central in $\catC_A$. Let for this $g : Y \to Y'$ be some
+    arbitrary morphism from $\catC_A$, then we want
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{J_Af \ltimes Y}  & X' \otimes Y \\
+        \dTo^{X \rtimes g} &                        & \dTo_{X' \rtimes g} \\
+        X \otimes Y'        & \rTo^{J_Af \ltimes Y'} & X' \otimes Y'
+    \end{diagram}
+    \]
+    to commute, which is just
+    % TODO Introduce second
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{first_Y(arr(f))}   & X' \otimes Y \\
+        \dTo^{second_X(g)} &                        & \dTo_{second_{X'}(g)} \\
+        X \otimes Y'        & \rTo^{first_{Y'}(arr(f))} & X' \otimes Y'
+    \end{diagram}
+    \]
+    and follows from the arrow laws and the definition of $second$ by:
+    \begin{align*}
+        first_Y(arr(f)) \ggg second_{X'}(g)
+          &= arr(f \times id_Y) \ggg second_{X'}(g) \\
+          &= arr(f \times id_Y) \ggg arr(\gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr((f \times id_Y) \circ \gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY} \circ (id_Y \times f)) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg arr(id_Y \times f) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(id_{Y'} \times f) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr((id_{Y'} \times f) \circ \gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X} \circ (f \times id_{Y'})) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg arr(f \times id_{Y'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg first_{Y'}(arr(f)) \\
+          &= second_X(g) \ggg first_{Y'}(arr(f)).
+    \end{align*}
+    For the other diagram,
+    \[
+    \begin{diagram}
+        Y \otimes X         & \rTo^{Y \rtimes J_Af}  & Y \otimes X' \\
+        \dTo^{g \ltimes X}  &                        & \dTo_{g \ltimes X'} \\
+        Y' \otimes X        & \rTo^{Y' \rtimes J_Af} & Y' \otimes X',
+    \end{diagram}
+    \]
+    that is,
+    \[
+    \begin{diagram}
+        Y \otimes X        & \rTo^{second_Y(arr(f))}    & Y \otimes X' \\
+        \dTo^{first_X(g)}  &                            & \dTo_{first_{X'}(g)} \\
+        Y' \otimes X       & \rTo^{second_{Y'}(arr(f))} & Y' \otimes X',
+    \end{diagram}
+    \]
+    the procedure is similar.
+
 \end{proof}
