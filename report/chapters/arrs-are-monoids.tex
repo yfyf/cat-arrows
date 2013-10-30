@@ -75,8 +75,9 @@ closer look at $\ggg$.
     $Y$ and dinatural in $P$.
 \end{lemma}
 
-Advanced category theory wizards upon spotting dinaturality take to looking
-for a tensor structure~\cite[p.~8]{arr-like-mon}. Hence we shall try to
+Advanced category theory wizards, upon spotting this dinaturality, immediately
+realise that $\ggg$ can be used to obtain proper profunctor composition, which
+also acts as a tensor product~\cite[p.~8]{arr-like-mon}. Hence we shall try to
 follow their path.
 
 \subsection{Arrows are monoids}
@@ -123,21 +124,18 @@ $\left( A(B, C) \times -\right) \mapsto
 
 This boils down to~\cite[p.~10]{arr-like-mon} to coequalising our initial
 coproduct to ensure the tensor object is what we need:
-\[ \coprod_{C, C' \in \catC} (A(B, C) \times [C \Rightarrow C'] \times A(C', D))
-    \overset{d_1,\, d_2 }{\longrightarrow}
-    \coprod_{C \in \catC} (A(B, C) \times A(C, D))
-    \longrightarrow
-    A(B, D)
+
+\[
+\begin{diagram}
+    \coprod_{C, C' \in \catC}
+        (A(B, C) \times [C \Rightarrow C'] \times A(C', D)) &
+        \pile{\rTo^{d_1} \\ \rTo_{d_2} } &
+        \coprod_{C \in \catC} (A(B, C) \times A(C, D)) &
+        \rTo^{c} &
+        (A \otimes A)(B, D)\\
+        & & & \rdTo & \dDashto_{\ggg} \\
+        & & &       & A(B, D)
+\end{diagram}
 \]
-together with the coequalizer $c$ for $d_1, d_2$
-\[ \coprod_{C \in \catC} (A(B, C) \times A(C, D))
-    \overset{c}{\longrightarrow}
-    (A \otimes A)(B, D)
-\]
-gives
-\[ \coprod_{C \in \catC} (A(B, C) \times A(C, D)) \longrightarrow A(B, D)
-    \overset{\ggg}{\longleftarrow}
-    (A \otimes A)(B, D)
-\]
-%% @TODO: add proper diagram
+
 as needed. $\bigstar$
