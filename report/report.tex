@@ -8,10 +8,13 @@
 \usepackage{fancyvrb}
 \usepackage{csquotes}
 \usepackage{upquote}
+\usepackage{lib/diagrams}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
 
 \newcommand{\catx}[1]{\mathbb{#1}}
 \newcommand{\catC}{\catx{C}}
@@ -20,13 +23,25 @@
 \newcommand{\opcat}[1]{{#1}^{\text{op}}}
 \newcommand{\Sets}{\mathbf{Sets}}
 \newcommand{\Cat}{\mathbf{Cat}}
+\newcommand{\Hask}{\mathbf{Hask}}
 
 %% @TODO: invent some kid of inline 'code' style for this
 \newcommand{\firstArr}{\texttt{first}}
 
+%% @TODO: pick a 'math' style for arrow operations
+\newcommand{\arrM}{\text{arr}}
+\newcommand{\firstM}{\text{first}}
+%% >>>, <<< are \ggg and \lll
+
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+
+
+\renewcommand{\labelitemi}{$-$}
 
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small,commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}}
 
@@ -62,8 +77,9 @@
 \chapter{Modelling Computation in Theory and Practice}
     \input{chapters/arrows-practice}
     \input{chapters/freyd-cats}
-    \input{chapters/cat-arrows-hist}
 \chapter{Categorical semantics of arrows (?)}
+    \input{chapters/cat-arrows-hist}
+    \input{chapters/arrs-are-monoids}
 
 \nocite{mustard}
 \printbibliography

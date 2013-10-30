@@ -1,0 +1,141 @@
+\section{Arrows are monoids}
+
+\subsection{Arrows are endo-profunctors}
+
+%% Disclaimer: I allowed myself to freestyle here, so please read with
+%% suspicion.
+
+We now explore a rather simplified interpretation of arrows, mostly following
+the one initially described by Heunen \& Jacobs~\cite{arr-like-mon}. Our spirit
+here is to just assume that the naive categorical interpretations of arrow
+definitions are correct and then see what structure this gives us.
+Using this approach we end up with the fact that arrows can be seen as monoids
+on the category of bifunctors $\opcat{\catC} \times \catC \to \catC$.
+Moreover, we also obtain a (sloppy) bijection between Freyd categories and
+the aforementioned monoidal structure induced by arrows.
+
+Since arrows are first of all a computational notion in functional programming,
+to begin, we can, as usual, assume our working domain is some cartesian closed
+category $\catC$. In particular, we can consider $\catC$ to be the category
+$\Hask$ of Haskell types and functions.
+
+Having this domain in mind, we can try to provide a categorical interpretation
+of a Haskell \verb|(Arrow a)| instance. First, observe that every type
+constructor \verb|f :: * -> *| in Haskell induces a subcategory of $\Hask$
+where all types (i.e.~objects) are of the form \verb|f a|.  Similarly,
+the \verb|(Arrow a)| type constructor \verb|a| of kind \verb|* -> (* -> *)|
+also induces a subcategory of function types.\footnote{%
+For intuition, observe that e.g. the function type constructor
+\texttt{(->)} is of kind \texttt{* -> (* -> *)}}
+%% can't use \verb in footnote for mysterious reasons
+
+With these observations, we can deduce that it is reasonable to consider
+\verb|(Arrow a)| categorically as, firstly, a map $A$, whose object part is
+of the form $|\catC| \to |\catC \Rightarrow \catC|$, which after uncurrying
+becomes $|A|: |\catC| \times |\catC| \to |\catC|$. Moreover, since we want $A$
+to play nice with Haskell functions, we assume it is well-behaved with respect
+to morphisms in $\Hask$, which boils down to $A$ being bifunctorial.
+
+Moreover, we see $A$ is contravariant in the first variable and covariant in
+the second. Thus we can conclude that $A$ is in fact an endo-profunctor on
+$\catC$, i.e.~$A: \opcat{\catC} \times \catC \to \catC$. We later prove our
+assumptions are correct\footnote{By which we mean: ``correct for the naive
+interpretation''} and now consider the additional structure induced by
+the arrow operations:
+
+\begin{itemize}
+    \item \verb|arr| is a function of type \verb|(b -> c) -> a b c|.
+        The categorical interpretation of a function type is simply an internal
+        hom in $\catC$, hence we get that categorically \verb|arr| corresponds
+        to a functor sending homs in $\catC$ to homs in the subcategory induced
+        by $A$, i.e.: $arr: [B \Rightarrow C] \mapsto A(B, C)$. Alternatively, one
+        can say that $arr$ is a collection of natural transformations
+        $arr_{BC}$, sending morphisms $B \to C$ in $\catC$ to morphisms in $A$;
+    \item similarly, \verb|first| is a function of type
+        \verb|a b c -> a (b, d) (c, d)|
+        corresponding to a family of morphisms\\
+        $first_{BCD}: A(B, C) \to A(B \times D,C \times D)$\\
+        or as a functor $first$ sending homs $A(-, +)$ to homs $A(- \times D, +
+        \times D)$;
+    \item finally, \verb|(>>>)| is function of type \verb|a b c -> a c d -> a b d|.
+        If $A$ were closed then we could interpret \verb|(>>>)| as a
+        map\\
+        $\ggg_{BCD}: A(B, C) \to (A(C, D) \Rightarrow A(B, D))$.\\
+        However, this is not the case in general, so instead we can view
+        \verb|(>>>)| as a family of morphisms\\
+        $\ggg_{BCD}: A(B, C) \times A(C, D) \to A(B, D)$\\
+\end{itemize}
+
+We assume for now that our interpretations are correct (in particular, that the
+claimed natural transformations are actually natural) and move on to take a
+closer look at $\ggg$.
+
+\begin{lemma}[{\cite[Lemma~3.3]{arr-like-mon}}]
+    The maps $\ggg: A(X, P) \times (P, Y) \to A(X, Y)$ are natural in $X$,
+    $Y$ and dinatural in $P$.
+\end{lemma}
+
+Advanced category theory wizards, upon spotting this dinaturality, immediately
+realise that $\ggg$ can be used to obtain proper profunctor composition, which
+also acts as a tensor product~\cite[p.~8]{arr-like-mon}. Hence we shall try to
+follow their path.
+
+\subsection{Arrows are monoids}
+
+We now wish to discover a monoidal structure somewhere. The hardest part is
+obviously recovering the hidden tensor product.
+
+Since the only operation at hand which acts on some kind of products is $\ggg$
+we concentrate our efforts on squeezing a tensor product out of it. We wish
+to end up in a situation where $\ggg$ is a map
+    \[ A \otimes A \overset{\ggg}{\longrightarrow} A \]
+
+To do so, we first of all need to figure out what would an object of $A \otimes A$
+look like. We do this by keeping in mind that we will want to map it into $A$
+by using $\ggg$. Recall that $\ggg$ is actually a collection of morphisms
+$\ggg_{BCD}$. This is somewhat inconvenient because we will want to have a
+morphism of the form:
+    \[ (A \otimes A)(X, Y) \overset{\ggg}{\longrightarrow} A(X, Y) \]
+However, $\ggg_{BCD}$ includes a third ``middle'' object $C$.
+
+This is where dinaturality comes in handy. Since dinaturality tells us that the
+middle object $C$ is irrelevant, we can try to combine the domains of
+$\ggg_{B\,\_ \,D}$ (ranging over the middle object) by lumping them up into one big
+object.
+
+The two usual choices for lumping things up are taking products and taking
+coproducts. In this case, the right choice is clearly a
+coproduct.\footnote{Because we are \emph{already} working with products, so
+producing more products would not make any sense!}
+
+Ignoring the apparent size issues, we can now consider $\ggg$ as
+\[ \coprod_{C \in \catC} (A(B, C) \times A(C, D))
+    \overset{\ggg}{\longrightarrow} A(B, D) \]
+
+Is this huge coproduct already the thing we need? Not really, because in order
+for it to play nice with the tensor product we need to also make sure the tensor
+product is happy not only about that middle \emph{object} is ignored, but
+also that this is done ``naturally'', i.e.~if we consider a morphism in
+$\catC$, $f: C \to C'$, the tensor product should agree on the objects in the
+presence of a morphism:
+%% this makes no sense, but I want to go to sleep:
+$\left( A(B, C) \times -\right) \mapsto
+    \left( A(B, C') \times - \right)$
+
+This boils down to~\cite[p.~10]{arr-like-mon} to coequalising our initial
+coproduct to ensure the tensor object is what we need:
+
+\[
+\begin{diagram}
+    \coprod_{C, C' \in \catC}
+        (A(B, C) \times [C \Rightarrow C'] \times A(C', D)) &
+        \pile{\rTo^{d_1} \\ \rTo_{d_2} } &
+        \coprod_{C \in \catC} (A(B, C) \times A(C, D)) &
+        \rTo^{c} &
+        (A \otimes A)(B, D)\\
+        & & & \rdTo & \dDashto_{\ggg} \\
+        & & &       & A(B, D)
+\end{diagram}
+\]
+
+as needed. $\bigstar$
