@@ -1,0 +1,51 @@
+\section{Arrows are Freyd categories}
+
+Having gained some acquaintance with both Freyd categories as well as arrows and
+their categorical interpretation, we now return to the \emph{folklore} claim
+encountered in \ref{sec:cat-arrows-hist}. We will follow the exposition
+in~\cite{cat-semantics-arr} to give a formal meaning to the claim. To do so, we
+will first give a way of constructing categories from arrows such that they give
+rise to Freyd categories. Second, we will complete the correspondence by showing
+how Freyd categories give rise to arrows.
+
+\begin{definition}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ with operations
+    $arr, \ggg$, and $first$, define $\catC_A$ by
+    \begin{itemize}
+        \item $|\catC_A| := |\catC|,$
+        % TODO Is this what is meant at 2009, p. 420?
+        % TODO We are adapting to \catC-valued A, hence result is hom-type.
+        %      Implications?
+        \item $\catC_A(X, Y) := A(X, Y),$
+        % TODO Mark respective cats?
+        \item for $X \in \catC_A$, $1_X := arr(id_X),$
+        \item for $f: X \to Y, g: Y \to Z, g \circ f := f \ggg g.$
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    $J_A : \catC \to \catC_A, X \mapsto X, f \mapsto arr(f)$ is a functor.
+\end{proposition}
+
+\begin{proof}
+    This follows from the definition of $\catC_A$ and the arrow laws, whereby
+    $J_A(g \circ f) = arr(g \circ f) = arr(f) \ggg arr(g) = g \circ_{\catC_A}
+    f$.
+\end{proof}
+
+We shall now show that this gives rise to a Freyd category.
+
+\begin{lemma}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$, the category
+    $\catC_A$, together with $\catC$ and $J_A : \catC \to \catC_A$ forms a
+    Freyd category.
+\end{lemma}
+
+% The proof, the proof, the proof is on fire.
+\begin{proof}
+    To see that $\catC_A$ is symmetric premonoidal, take $I$ to be the initial
+    object of $\catC_A$ and define $X \otimes Y := X \times Y$ -- through which
+    the associator, unitors and commutator are given as the obvious operations
+    on products -- extended to a functor by setting, for $f: X \to Y$, $f
+    \ltimes Z := first_Z(f)$, and $Z \rtimes f := second_Z(f)$.
+\end{proof}
