@@ -72,7 +72,7 @@ claimed natural transformations are actually natural) and move on to take a
 closer look at $\ggg$.
 
 \begin{lemma}[{\cite[Lemma~3.3]{arr-like-mon}}]
-    The maps $\ggg: A(X, P) \times (P, Y) \to A(X, Y)$ are natural in $X$,
+    The maps $\ggg: A(X, P) \times A(P, Y) \to A(X, Y)$ are natural in $X$,
     $Y$ and dinatural in $P$.
 \end{lemma}
 \begin{proof}
@@ -85,6 +85,21 @@ commutes:
    & \rdTo^{A(\text{id}, f) \times \text{id}} & & \ruTo^{\ggg_{XQY}} & \\
     & & A(X, Q) \times A(Q, Y) & &
 \end{diagram} \]
+
+Naturality is $X$ and $Y$ is easy to see as it is just pre- and post-
+composition, which follows from bifunctoriality of $A$.
+
+\newcommand{\idop}{\text{id}}
+
+For dinaturality, assume $a: A(X, P)$ and $b: A(Q ,Y)$, then\footnote{Here $;$
+is precomposition.}
+\begin{align*}
+    (\idop \times A(f, \idop);\ggg_{XPY})(a, b) =& a \ggg_{XPY} A(f, id)(b) \\
+    =& a \ggg_{XPY} (arr(f) \ggg_{PQY} b) \\
+    =& (a \ggg_{XPQ} arr(f)) \ggg_{XQY} b \\
+    =& A(\idop, f)(a) \ggg_{XQY} b \\
+    =& (A(\idop, f) \times \idop;\ggg_{XQY})(a,b)
+\end{align*}
 \end{proof}
 
 Advanced category theory wizards, upon spotting this dinaturality, realise that
