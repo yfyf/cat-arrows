@@ -8,5 +8,6 @@
 *.pdf
 *.snm
 *.toc
+*.vrb
 *-blx.bib
 *.run.xml
