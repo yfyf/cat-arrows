@@ -64,6 +64,7 @@ the arrow operations:
         However, this is not the case in general, so instead we can view
         \verb|(>>>)| as a family of morphisms\\
         $\ggg_{BCD}: A(B, C) \times A(C, D) \to A(B, D)$\\
+        and $\ggg$ as a bifunctor.
 \end{itemize}
 
 We assume for now that our interpretations are correct (in particular, that the
@@ -74,32 +75,46 @@ closer look at $\ggg$.
     The maps $\ggg: A(X, P) \times (P, Y) \to A(X, Y)$ are natural in $X$,
     $Y$ and dinatural in $P$.
 \end{lemma}
+\begin{proof}
+Dinaturality means that for every map $f: P \to Q$, the following diagram
+commutes:
+\[ \begin{diagram}
+    & & A(X, P) \times A(P, Y) & & \\
+    & \ruTo^{\text{id} \times A(f, \text{id})} & & \rdTo^{\ggg_{XPY}} & \\
+    A(X, P) \times A(Q, Y) & & & & A(X, Y) \\
+   & \rdTo^{A(\text{id}, f) \times \text{id}} & & \ruTo^{\ggg_{XQY}} & \\
+    & & A(X, Q) \times A(Q, Y) & &
+\end{diagram} \]
+\end{proof}
 
-Advanced category theory wizards, upon spotting this dinaturality, immediately
-realise that $\ggg$ can be used to obtain proper profunctor composition, which
-also acts as a tensor product~\cite[p.~8]{arr-like-mon}. Hence we shall try to
-follow their path.
+Advanced category theory wizards, upon spotting this dinaturality, realise that
+$\ggg$ can be used to obtain proper profunctor composition, which also acts as
+a tensor product~\cite[p.~8]{arr-like-mon}. An elegant way to proceed then is
+to use coends over the dinatural argument to extend the arrow precomposition
+$\ggg$ to full profunctor composition and use it as a tensor object. This is
+mentioned in \cite{cat-semantics-arr} and described in detail by
+Asada~\cite{asada}. However, to avoid introducing extra concepts and keep our
+presentation simple, we shall follow the construction by Jacobs
+et.~al~\cite{cat-semantics-arr}.
 
 \subsection{Arrows are monoids}
 
-We now wish to discover a monoidal structure somewhere. The hardest part is
-obviously recovering the hidden tensor product.
+We now wish to discover some monoidal structure on the category of bifunctors
+\\$\opcat{\catC} \times \catC \to \catC$. For that we need to recover the hidden
+tensor product.
 
-Since the only operation at hand which acts on some kind of products is $\ggg$
-we concentrate our efforts on squeezing a tensor product out of it. We wish
-to end up in a situation where $\ggg$ is a map
-    \[ A \otimes A \overset{\ggg}{\longrightarrow} A \]
+Since the only binary operation at hand is $\ggg$, we concentrate our efforts
+on squeezing a tensor product out of it. We wish to end up in a situation where
+$\ggg$ is a map \[ A \otimes A \overset{\ggg}{\longrightarrow} A \]
 
-To do so, we first of all need to figure out what would an object of $A \otimes A$
-look like. We do this by keeping in mind that we will want to map it into $A$
-by using $\ggg$. Recall that $\ggg$ is actually a collection of morphisms
+To do so, we first of all need to figure out what would an object of $A \otimes
+A$ look like. Recall that $\ggg$ is actually a collection of morphisms
 $\ggg_{BCD}$. This is somewhat inconvenient because we will want to have a
-morphism of the form:
-    \[ (A \otimes A)(X, Y) \overset{\ggg}{\longrightarrow} A(X, Y) \]
-However, $\ggg_{BCD}$ includes a third ``middle'' object $C$.
+morphism of the form: \[ (A \otimes A)(X, Y) \overset{\ggg}{\longrightarrow}
+A(X, Y) \] However, $\ggg_{BCD}$ includes a third ``middle'' object $C$.
 
 This is where dinaturality comes in handy. Since dinaturality tells us that the
-middle object $C$ is irrelevant, we can try to combine the domains of
+middle object $C$ is irrelevant for composition, we can try to combine the domains of
 $\ggg_{B\,\_ \,D}$ (ranging over the middle object) by lumping them up into one big
 object.
 
@@ -109,21 +124,20 @@ coproduct.\footnote{Because we are \emph{already} working with products, so
 producing more products would not make any sense!}
 
 Ignoring the apparent size issues, we can now consider $\ggg$ as
-\[ \coprod_{C \in \catC} (A(B, C) \times A(C, D))
-    \overset{\ggg}{\longrightarrow} A(B, D) \]
+\begin{align}\label{ggg-coprod}
+\coprod_{C \in \catC} (A(B, C) \times A(C, D))
+    \overset{\ggg}{\longrightarrow} A(B, D)
+\end{align}
 
-Is this huge coproduct already the thing we need? Not really, because in order
-for it to play nice with the tensor product we need to also make sure the tensor
-product is happy not only about that middle \emph{object} is ignored, but
-also that this is done ``naturally'', i.e.~if we consider a morphism in
-$\catC$, $f: C \to C'$, the tensor product should agree on the objects in the
-presence of a morphism:
-%% this makes no sense, but I want to go to sleep:
-$\left( A(B, C) \times -\right) \mapsto
-    \left( A(B, C') \times - \right)$
+Is this huge coproduct already the thing we need? Not yet, we also need to make
+sure that, given $f: C \to C'$, the relation
+\begin{equation}\label{eq:rel}
+    A(-, f) \ggg A(C', -) = A(-, C) \ggg A(f, -)
+\end{equation}
+is preserved, i.e.~the dinaturality is captured also for morphisms.
 
-This boils down to~\cite[p.~10]{arr-like-mon} to coequalising our initial
-coproduct to ensure the tensor object is what we need:
+This boils down to coequalising our initial coproduct to ensure the tensor
+object preserves this property:
 
 \[
 \begin{diagram}
@@ -137,5 +151,17 @@ coproduct to ensure the tensor object is what we need:
         & & &       & A(B, D)
 \end{diagram}
 \]
+where $d_1$, $d_2$ is are actually a collection of maps (for each $[C
+\Rightarrow C']$), which ensure the relation~\eqref{eq:rel} is preserved via
+\[ \begin{diagram}
+    d_1: A(B, C) \times [C \Rightarrow C'] & \rTo^{\text{str}} &
+    A(B, C \times [C \Rightarrow C']) & \rTo^{A(\text{id}, \text{eval})} & A(B, C')\\
+    d_2: [C \Rightarrow C'] \times A(C', D) & \rTo^{\text{costr}} &
+    A([[C \Rightarrow C'] \Rightarrow C'], D) & \rTo^{A(\text{eval}', \text{id})} &
+    A(C, D)
+\end{diagram} \]
 
-as needed. $\bigstar$
+Then $\ggg$ reappears by construction, because by the dinaturality condition it
+clearly coequalizes the (collection of) maps $d_1, d_2$ and we have a
+collection of maps $\ggg_{BCD}$ which then form the unique morphisms which
+satisfy the universal property of the coequaliser.
