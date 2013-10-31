@@ -1,0 +1,167 @@
+\section{Freyd categories}
+
+\begin{frame}
+
+    {\huge \center Cartesian closed categories}
+    \begin{itemize}
+        \item CCC $\sim$ typed $\lambda$-calculus;
+        \item intuitionistic logic $\sim$ typed $\lambda$-calculus;
+        \item ($\Rightarrow$) intuitionistic logic $\sim$ CCC;
+        \item also $\Hask$ is "morally" a CCC
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \huge
+    Cartesian \sout{closed} categories
+
+    $=$
+
+    categories with finite products
+    \end{center}
+
+    this structure is characterised by
+
+    \begin{itemeyez}
+        \item[projections] $\pi_i: A_1 \times A_2 \to A_i$
+        \item[symmetry] $A \times B \cong B \times A$
+        \item[associativity] $A \times (B \times C) \cong (A \times B) \times C$
+    \end{itemeyez}
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}\huge Symmetric monoidal categories\end{center}
+    \begin{itemeyez}
+        \item[\sout{projections}] \sout{$\pi_i: A_1 \times A_2 \to A_i$, $i = \{1, 2\}$}
+        \item[symmetry] $A \otimes B \cong B \otimes A$
+        \item[associativity] $A \otimes (B \otimes C) \cong (A \otimes B) \otimes C$
+    \end{itemeyez}
+
+\end{frame}
+
+\begin{frame}
+    \begin{center}\LARGE (Symmetric) {\bf pre}monoidal categories\end{center}
+    \begin{itemize}
+        \item Drop bifunctoriality of $(- \otimes -)$
+        \item still a functor in each variable: $(- \otimes X)$, $(X \otimes -)$
+        \item replace $\otimes$ with $\ltimes$ and $\rtimes$
+        \item the following diagram does \emph{not} necessarily commute
+        \binoidaldiag
+        \item intuition: "external state"
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{example}[John Power]
+    \begin{itemize}
+        \item $\catC$ - Cartesian category (with $\times$)
+        \item a specified object $S \in |\catC|$ ("state")
+        \item Define $\catx{K}$ as
+        \begin{itemize}
+            \item $|\catx{K}| := |\catC|$
+            \item $\catx{K}(X, Y) := \catC(S \times X, S \times Y)$
+            \item $\circ_{\catx{K}} := \circ_{\catC}$
+        \end{itemize}
+    \end{itemize}
+    Again we have functors:
+    \begin{align*}
+    X \otimes -: \catx{K} \to \catx{K} \\
+    - \otimes X: \catx{K} \to \catx{K}
+    \end{align*}
+    They are \emph{not} bifunctorial!
+
+    $\catx{K}$ is a symmetric premonoidal.
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{example}[continued]
+    Look at the diagram again
+    \binoidaldiag
+    Intuition:
+    \begin{itemize}
+        \item values computed by composites are the same
+        \item side-effects on state are not
+        \item consider $S = \{0, 1\}$, $f_S = (0)$, $g_S = (1)$
+        \item upper part results in state $1$, lower part produces $0$.
+    \end{itemize}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\begin{definition}[Binoidal category]
+    A binoidal category is a category $\catC$ equipped with:
+    \begin{enumerate}
+        \item for each $(A, B)$ in $|\catC| \times |\catC|$, an object $A \otimes B$
+            in $|\catC|$;
+        \item for each $A$, a functor $(A \rtimes -) : B \mapsto A \otimes B$
+        \item for each $A$, a functor $(- \ltimes A) : B \mapsto B \otimes A$
+    \end{enumerate}
+\end{definition}
+
+The conditions imply that, $A \rtimes B = A \otimes B = A \ltimes B$,
+justifying the usage of the notation $A \otimes B$.
+\end{frame}
+
+\begin{frame}
+\begin{definition}[Central morphism]
+    A morphism $f: A \to B$ in a binoidal category is \emph{central} if for
+    every morphism $g: A' \to B'$ the composites of maps (of the form $h
+    \ltimes C$ or $C \rtimes h$, where $C$ is either $A$ or $B$ and $h$ is
+    either $f$ or $g$) from $A \otimes A'$ to $B \otimes B'$ and from $A'
+    \otimes A$ to $B' \otimes B$ agree.
+\end{definition}
+A natural transformation is central if its components are central.
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+    \item \emph{centre} of a premonoidal category $\catC$ is a subcategory
+        $Z(\catC)$, such that $|\catC| = |Z(\catC)|$ and all the morphisms in
+        $Z(\catC)$ are central.
+
+    \item $Z(\catC)$ is monoidal
+
+    \item ($\Rightarrow$) $\catC$ - monoidal $\iff$ $Z(\catC) = \catC$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{definition}[Premonoidal category]
+    A \emph{premonoidal category} is a binoidal category equipped with:
+    \begin{enumerate}
+        \item identity $I$
+        \item central $\alpha_{A,B,C}\colon (A \otimes B) \otimes C \tocong
+            \otimes (B \otimes C)$
+        \item central $\lambda_A\colon A \otimes I \tocong A$
+        \item central $\rho_A\colon I \otimes A \tocong A$
+    \end{enumerate}
+
+    such that the usual monoidal category coherence conditions are satisfied,
+    i.e.~the pentagon law for $\alpha$ and triangle laws for $\alpha$,
+    $\lambda$, $\rho$ hold.
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+    \item \emph{symmetric premonoidal category} is a premonoidal category
+        equipped with a central natural isomorphism $\gamma_{A,B} : A\otimes B
+        \cong B\otimes A$
+
+    \item \emph{symmetric premonoidal} functor is a functor which preserves the
+        symmetric premonoidal structure and sends central maps to central maps.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{definition}[Freyd category]
+    A Freyd category consists of a category with finite products $\catC$
+    and an identity-on-objects symmetric premonoidal functor
+    \[ J: \catC \to \catx{K} \]
+    (hence $\catx{K}$ is a symmetric premonoidal category).
+\end{definition}
+\end{frame}
