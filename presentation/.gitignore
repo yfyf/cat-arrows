@@ -1,0 +1,12 @@
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+*-blx.bib
+*.run.xml
