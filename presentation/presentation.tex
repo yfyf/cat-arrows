@@ -1,6 +1,8 @@
 \documentclass[mathserif]{beamer}
+\usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\usepackage[normalem]{ulem}
 
 \input{../lib/definitions}
 
@@ -10,6 +12,9 @@
 \setbeamertemplate{navigation symbols}{}
 
 \usepackage{tikz}
+\newenvironment{itemeyez}{\begin{itemize}%
+    \setlength{\itemindent}{5em}}{%
+    \end{itemize}}
 
 \title{Cat Arrows}
 \subtitle{What is a categorical semantics for arrows?}
@@ -33,5 +38,6 @@
 \input{chapters/context.tex}
 \input{chapters/hask.tex}
 \input{chapters/arrows.tex}
+\include{chapters/freyd-cats}
 
 \end{document}
