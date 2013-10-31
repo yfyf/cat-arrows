@@ -154,8 +154,8 @@ is preserved, i.e.~the dinaturality is captured also for morphisms.
 This boils down to coequalising our initial coproduct to ensure the tensor
 object preserves this property:
 
-\[
-\begin{diagram}
+\begin{align}
+    \begin{diagram}\label{megadiag}
     \coprod_{C, C' \in \catC}
         (A(B, C) \times [C \Rightarrow C'] \times A(C', D)) &
         \pile{\rTo^{d_1} \\ \rTo_{d_2} } &
@@ -165,7 +165,8 @@ object preserves this property:
         & & & \rdTo & \dDashto_{\ggg} \\
         & & &       & A(B, D)
 \end{diagram}
-\]
+\end{align}
+
 where $d_1$, $d_2$ is are actually a collection of maps (for each $[C
 \Rightarrow C']$), which ensure the relation~\eqref{eq:rel} is preserved via
 \[ \begin{diagram}
@@ -180,3 +181,23 @@ Then $\ggg$ reappears by construction, because by the dinaturality condition it
 clearly coequalizes the (collection of) maps $d_1, d_2$ and we have a
 collection of maps $\ggg_{BCD}$ which then form the unique morphisms which
 satisfy the universal property of the coequaliser.
+
+Having dealt with the hard bit, we know only need to find a suitable unit
+object for the monoidal structure. This is obviously just the identity
+bifunctor, i.e.~the hom-functor $\catC(-, +)$, which we shall denote as $I$.
+
+To obtain the needed isomorphism $A \cong A \otimes I$, we at first construct a
+morphism $\rho: A \to A\otimes I$ by, for every map $P \to Y$ injecting $A(X,
+Y)$ into the coproduct
+\[ \coprod_{P \in \catC} A(B, P) \times [P\Rightarrow Y] \]
+and coequalising such maps to obtain
+    \[ (A \otimes I)(X, Y) \]
+It is then possible to construct the inverse $\rho^{-1}$ by considering a
+specific instance of the diagram to \ref{megadiag} for the unit $I$ and a
+cotuple of maps \[
+    A(X, P) \times [P \Rightarrow Y] \to
+    A(X, P \times [P \Rightarrow Y]) \to
+    A(X, Y)
+\]
+and taking the unique map $(A\otimes I)(X, Y) \to
+A(X, Y)$ given by the universal property as the inverse.
