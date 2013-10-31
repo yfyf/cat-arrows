@@ -1,0 +1,187 @@
+\section{Arrows are Freyd categories}
+
+Having gained some acquaintance with both Freyd categories as well as arrows and
+their categorical interpretation, we now return to the \emph{folklore} claim
+encountered in~\ref{sec:cat-arrows-hist}. We will follow the exposition
+in~\cite{cat-semantics-arr} to give a formal meaning to the claim. To do so, we
+will first give a way of constructing categories from arrows such that they give
+rise to Freyd categories. Second, we will complete the correspondence by showing
+how Freyd categories give rise to arrows.
+
+Before however getting into the meat of this section, we want to summarize the
+results of this chapter in so far in
+
+\begin{definition}[Arrows categorically]\label{def:catarr}
+    Let $\catC$ be a locally small category with finite products. Define an
+    \emph{arrow over $\catC$} to be a monoid in the category of profunctors
+    $\opcat{\catC} \times \catC \to \catC$ possessing a natural transformation
+    $first$, whose components $first_Z: A(X, Y) \to A(X \times Z, Y \times Z)$
+    satisfy the arrow laws (5)--(9).
+\end{definition}
+
+Now for the new part.
+
+\begin{definition}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ with operations
+    $arr, \ggg$, and $first$, define $\catC_A$ by
+    \begin{itemize}
+        \item $|\catC_A| := |\catC|,$
+        \item $\catC_A(X, Y) := A(X, Y),$
+        % TODO Mark respective cats?
+        \item for $X \in \catC_A$, $1_X := arr(id_X),$
+        \item for $f: X \to Y, g: Y \to Z, g \circ f := f \ggg g$.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    $J_A : \catC \to \catC_A, X \mapsto X, f \mapsto arr(f)$ is a functor.
+\end{proposition}
+
+\begin{proof}
+    This follows from the definition of $\catC_A$ and the arrow laws, whereby
+    $J_A(g \circ f) = arr(g \circ f) = arr(f) \ggg arr(g) = g \circ_{\catC_A}
+    f$.
+\end{proof}
+
+We shall now show that this gives rise to a Freyd category.
+
+\begin{lemma}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ over a category
+    $\catC$ with finite products, the category $\catC_A$, together with $\catC$
+    and $J_A : \catC \to \catC_A$ forms a Freyd category.
+\end{lemma}
+
+% The proof, the proof, the proof is on fire.
+\begin{proof}
+    To see that $\catC_A$ is symmetric premonoidal, take $I$ to be the initial
+    object of $\catC_A$ and define $\alpha_{X, Y, Z}^{\catC_A} := arr(\alpha_{X,
+    Y, Z}), \lambda^{\catC_A}_X := arr(\lambda_X), \rho^{\catC_A}_X :=
+    arr(\rho_X),$ and $\gamma^{\catC_A}_{X, Y} := arr(\gamma_{X, Y})$. The
+    operation $X \otimes Y := X \times Y$ can be extended to a functor by
+    setting, for $f: X \to Y$, $f \ltimes Z := first_Z(f)$, and $Z \rtimes f :=
+    second_Z(f)$.
+    % TODO Does this suffice to show $\catC_A$ is premonoidal?
+
+    Since $J_A$ is the identity on objects and $arr$ on morphisms, it only
+    remains to show that it also preserves central maps. Let then $f: X \to X'$
+    be some morphism from $\catC$ (hence it is central). We need to verify that
+    $J_Af$ is central in $\catC_A$. Let for this $g : Y \to Y'$ be some
+    arbitrary morphism from $\catC_A$, then we want
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{J_Af \ltimes Y}  & X' \otimes Y \\
+        \dTo^{X \rtimes g}  &                        & \dTo_{X' \rtimes g} \\
+        X \otimes Y'        & \rTo^{J_Af \ltimes Y'} & X' \otimes Y'
+    \end{diagram}
+    \]
+    to commute, which is just
+    % TODO Introduce second
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{first_Y(arr(f))}    & X' \otimes Y \\
+        \dTo^{second_X(g)}  &                           & \dTo_{second_{X'}(g)} \\
+        X \otimes Y'        & \rTo^{first_{Y'}(arr(f))} & X' \otimes Y'
+    \end{diagram}
+    \]
+    and follows from the arrow laws and the definition of $second$ by:
+    \begin{align*}
+        first_Y(arr(f)) \ggg second_{X'}(g)
+          &= arr(f \times id_Y) \ggg second_{X'}(g) \\
+          &= arr(f \times id_Y) \ggg arr(\gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr((f \times id_Y) \circ \gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY} \circ (id_Y \times f)) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg arr(id_Y \times f) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(id_{Y'} \times f) \ggg arr(\gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr((id_{Y'} \times f) \circ \gamma_{Y'X'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X} \circ (f \times id_{Y'})) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg arr(f \times id_{Y'}) \\
+          &= arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg first_{Y'}(arr(f)) \\
+          &= second_X(g) \ggg first_{Y'}(arr(f)).
+    \end{align*}
+    For the other diagram,
+    \[
+    \begin{diagram}
+        Y \otimes X        & \rTo^{Y \rtimes J_Af}  & Y \otimes X' \\
+        \dTo^{g \ltimes X} &                        & \dTo_{g \ltimes X'} \\
+        Y' \otimes X       & \rTo^{Y' \rtimes J_Af} & Y' \otimes X',
+    \end{diagram}
+    \]
+    that is,
+    \[
+    \begin{diagram}
+        Y \otimes X       & \rTo^{second_Y(arr(f))}    & Y \otimes X' \\
+        \dTo^{first_X(g)} &                            & \dTo_{first_{X'}(g)} \\
+        Y' \otimes X      & \rTo^{second_{Y'}(arr(f))} & Y' \otimes X',
+    \end{diagram}
+    \]
+    the procedure is similar.
+\end{proof}
+
+\begin{lemma}
+    Every Freyd category of the form $\catD, \catC, J: \catC \to \catD$ induces
+    an arrow.
+\end{lemma}
+
+\begin{proof}
+    Define $A: \opcat{\catC} \times \catC \to \catC$ by setting $A(X, Y) :=
+    \catD(X,Y)$. We first need to verify that $A$ forms a monoid in the category
+    of $\catC$-enriched profunctors $\opcat{\catC} \times \catC \to \catC$ with
+    appropriate unit and multiplication.
+
+    Let for this $arr(f) := Jf$ and $a \ggg b := b \circ_\catD a$. A quick
+    verification of the arrow laws (1)--(4) can be done by noting that (1) is
+    inherited from the composition of $\catD$, (2) holds since $J$ is a functor
+    on $\catC$, and the same is true for (3) and (4).
+
+    $first$ can be given as
+    \[
+        first_Z(a) := (arr(\lambda p : X \times Z. (p, p))
+          \ggg ((arr(\pi_1) \ggg a) \ltimes X \times Z))
+          \ggg arr(id_Y \times \pi_2).
+    \]
+    The checking of the arrow laws (5) through (9) for this definition is intricate
+    and omitted\footnote{The proof in~\cite{cat-semantics-arr} uses the notion
+    of \emph{internal strength} in place of $first$, which we avoid for
+    terminological simplicity, but whereby this verification is complicated.}.
+%    \begin{align*}
+%        & first_Z(a) \ggg arr(\pi_1) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg ((arr(\pi_1) \ggg a) \ltimes X \times Z)\big)
+%          \ggg arr(id_Y \times \pi_2) \ggg arr(\pi_1) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg ((arr(\pi_1) \ggg a) \ltimes X \times Z)\big)
+%          \ggg arr(\pi_1 \circ (id_Y \times \pi_2)) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg ((arr(\pi_1) \ggg a) \ltimes X \times Z)\big)
+%          \ggg arr(\pi_1) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg ((arr(\pi_1) \ltimes X \times Z) \ggg (a \ltimes X \times Z))\big)
+%          \ggg arr(\pi_1) \\
+%        & \quad \overset{(1)}{=} \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg (arr(\pi_1) \ltimes X \times Z)\big)
+%          \ggg \big((a \ltimes X \times Z) \ggg arr(\pi_1)\big) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg (arr(\pi_1) \ltimes X \times Z)\big)
+%          \ggg a \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%          \ggg (arr(\pi_1) \ltimes X \times Z)\big)
+%          \ggg a \\
+%    \end{align*}
+%    \begin{align*}
+%        & first_Z(arr(f)) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%                    \ggg ((arr(\pi_1) \ggg arr(f)) \ltimes X \times Z)
+%                  \big)
+%                  \ggg arr(id_Y \times \pi_2) \\
+%        & \quad = \big(arr(\lambda p : X \times Z. (p, p))
+%                    \ggg (arr(f \circ \pi_1) \ltimes X \times Z)
+%                  \big)
+%                  \ggg arr(id_Y \times \pi_2)
+%    \end{align*}
+\end{proof}
+The two lemmas together establish the main result of~\cite{cat-semantics-arr}.
+\begin{theorem}[``Arrows are Freyd categories'']
+    Given any locally small category $\catC$ with finite products, there is a
+    one-to-one correspondence between arrows $A$ over $\catC$ and locally small
+    Freyd categories $\catC \to \catD$.
+\end{theorem}
