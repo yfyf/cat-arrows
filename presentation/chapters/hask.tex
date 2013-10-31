@@ -1,0 +1,27 @@
+\section{The Category $\Hask$}
+
+\begin{frame}[fragile]
+    \begin{definition}[$\Hask$, intuitively]
+        Define the category $\Hask$ to have as objects Haskell types and as
+        morphisms $f: a \to b$ pure functions \verb|f :: a -> b|, with
+        composition defined by composition in Haskell, $g \circ f :=$
+        \verb|g.f| and the identity given by the built-in polymorphic \verb|id|.
+    \end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{itemize}
+        \item Haskell resembles the simply typed lambda calculus
+        \item Is $\Hask$ cartesian closed?
+        \item Terminals and products from algebraic data types
+        \item Exponentials
+        \begin{itemize}
+            \item $\texttt{b}^\texttt{a} = \texttt{a -> b}$
+            \item $\textrm{eval} = \texttt{uncurry (\$) :: (a -> b, a) -> b}$
+        \end{itemize}
+        \item But idealization of Haskell required
+        \begin{itemize}
+            \item Ignore \verb|undefined|, \verb|seq|
+        \end{itemize}
+    \end{itemize}
+\end{frame}
