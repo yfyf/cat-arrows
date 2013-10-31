@@ -36,6 +36,14 @@ The conditions imply that, $A \rtimes B = A \otimes B = A \ltimes B$,
 justifying the usage of the notation $A \otimes B$. Observe that this
 operation is defined only on objects of $\catC$ so far.
 
+A binoidal category is characterised by the following diagram
+\binoidaldiag
+where the composites do not necessarily commute, which means we do \emph{not}
+always have a bifunctor $(- \otimes -): A\otimes B \mapsto A' \otimes B'$.
+
+We can define maps which are ``nice'' with respect to $\otimes$, i.e.~those
+that make the diagram above commute:
+
 \begin{definition}[Central morphism]
     A morphism $f: A \to B$ in a binoidal category is \emph{central} if for
     every morphism $g: A' \to B'$ the composites of maps (of the form $h
@@ -53,11 +61,11 @@ Having these, we can now define the generalisation of monoidal category.
     \begin{enumerate}
         \item an \emph{identity object} $I$
         \item for all $A, B, C$, a natural central \emph{associator}
-            isomorphism $\alpha_{A,B,C}\colon (A \otimes B) \otimes C \to A
+            isomorphism $\alpha_{A,B,C}\colon (A \otimes B) \otimes C \tocong A
             \otimes (B \otimes C)$
         \item for each object $A$, natural central isomorphisms: \emph{left
-            unitor} $\lambda_A\colon A \otimes I \to A$ and \emph{right unitor}
-            $\rho_A\colon I \otimes A \to A$
+            unitor} $\lambda_A\colon A \otimes I \tocong A$ and \emph{right unitor}
+            $\rho_A\colon I \otimes A \tocong A$
     \end{enumerate}
 
     such that the usual monoidal category coherence conditions are satisfied,
@@ -82,7 +90,6 @@ Having these, we can now define the generalisation of monoidal category.
     yield a monoidal structure on $\catx{K}$. However, they do  yield a
     premonoidal structure on $\catx{K}$.
 \end{example}
-%% @TODO: grok this example and explain it more.
 
 A \emph{strict premonoidal category} is a premonoidal category in which all the
 isomorphisms described above are identities, the $\otimes$ operator is

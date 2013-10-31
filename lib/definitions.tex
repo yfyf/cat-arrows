@@ -28,6 +28,8 @@
 \newcommand{\firstM}{\text{first}}
 %% >>>, <<< are \ggg and \lll
 
+\newcommand{\tocong}{\overset{\sim}{\to}}
+
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small,commandchars=\\\{\},codes={\catcode`$=3\catcode`_=8}}
 
 \hypersetup{
@@ -36,4 +38,12 @@
     citecolor=black,
     filecolor=black,
     urlcolor=black
+}
+
+\newcommand{\binoidaldiag}{%
+        \begin{diagram}%
+        A \otimes B & \rTo^{f \ltimes B} & A' \otimes B \\%
+    \dTo^{A \rtimes g}&                  &  \dTo_{A' \rtimes g} \\%
+        A \otimes B' & \rTo_{f \ltimes B'} & A' \otimes B'%
+        \end{diagram}%
 }
