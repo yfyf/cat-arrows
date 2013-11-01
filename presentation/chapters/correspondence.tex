@@ -1,0 +1,169 @@
+\section{Arrows are Freyd categories}
+
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+\begin{definition}[Arrows categorically]
+    Let $\catC$ be a locally small category with finite products. \\
+    \vspace{1em}
+    Define an
+    \emph{arrow over $\catC$} to be a monoid in the category of profunctors
+    $\opcat{\catC} \times \catC \to \catC$ possessing a natural transformation
+    $first$, whose components $first_Z: A(X, Y) \to A(X \times Z, Y \times Z)$
+    satisfy the arrow laws (5)--(9).
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\begin{definition}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ with operations
+    $arr, \ggg$, and $first$, define $\catC_A$ by
+    \begin{itemize}
+        \item $|\catC_A| := |\catC|,$
+        \item $\catC_A(X, Y) := A(X, Y),$
+        \item for $X \in \catC_A$, $1_X := arr(id_X),$
+        \item for $f: X \to Y, g: Y \to Z, g \circ f := f \ggg g$.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}
+    $J_A : \catC \to \catC_A, X \mapsto X, f \mapsto arr(f)$ is a functor.
+\end{proposition}
+\end{frame}
+
+\begin{frame}
+\begin{lemma}
+    For an arrow $A : \opcat{\catC} \times \catC \to \catC$ over a category
+    $\catC$ with finite products, the category $\catC_A$, together with $\catC$
+    and $J_A : \catC \to \catC_A$ forms a Freyd category.
+\end{lemma}
+\end{frame}
+
+\begin{frame}
+\begin{proof}
+\renewcommand{\qedsymbol}{}
+    $\catC_A$ is symmetric premonoidal:
+    \begin{itemize}
+        \item Take $I$ to be the initial object of $\catC_A$,
+        \item $\alpha_{X, Y, Z}^{\catC_A} := arr(\alpha_{X, Y, Z})$,
+        \item $\lambda^{\catC_A}_X := arr(\lambda_X)$,
+        \item $\rho^{\catC_A}_X := arr(\rho_X)$, and
+        \item $\gamma^{\catC_A}_{X, Y} := arr(\gamma_{X, Y})$.
+    \end{itemize}
+    Extend $X \otimes Y := X \times Y$ to a functor, setting
+    $f \ltimes Z := first_Z(f)$, and $Z \rtimes f := second_Z(f)$.
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{proof}[Proof (contd.)]
+\renewcommand{\qedsymbol}{}
+    $J_A$ preserves central maps, i.e. for $f \in \catC$, $J_Af$ is central in
+    $\catC_A$. \\
+    \vspace{1em}
+    Thus for $g \in \catC_A$ the diagrams
+    \begin{columns}[c]
+    \begin{column}{.5\textwidth}
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{J_Af \ltimes Y}  & X' \otimes Y \\
+        \dTo^{X \rtimes g}  &                        & \dTo_{X' \rtimes g} \\
+        X \otimes Y'        & \rTo^{J_Af \ltimes Y'} & X' \otimes Y',
+    \end{diagram}
+    \]
+    \end{column}
+    \begin{column}{.5\textwidth}
+    \[
+    \begin{diagram}
+        Y \otimes X        & \rTo^{Y \rtimes J_Af}  & Y \otimes X' \\
+        \dTo^{g \ltimes X} &                        & \dTo_{g \ltimes X'} \\
+        Y' \otimes X       & \rTo^{Y' \rtimes J_Af} & Y' \otimes X',
+    \end{diagram}
+    \]
+    \end{column}
+    \end{columns}
+    \vspace{1em}
+    need to commute.
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{proof}[Proof (contd.)]
+\renewcommand{\qedsymbol}{}
+    Following the definitions the first diagram translates to
+    \[
+    \begin{diagram}
+        X \otimes Y         & \rTo^{first_Y(arr(f))}    & X' \otimes Y \\
+        \dTo^{second_X(g)}  &                           & \dTo_{second_{X'}(g)} \\
+        X \otimes Y'        & \rTo^{first_{Y'}(arr(f))} & X' \otimes Y'
+    \end{diagram}
+    \]
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{proof}[Proof (contd.)]
+    \begin{align*}
+        & first_Y(arr(f)) \ggg second_{X'}(g) \\
+          & \quad = arr(f \times id_Y) \ggg second_{X'}(g) \\
+          & \quad = arr(f \times id_Y) \ggg arr(\gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          & \quad = arr((f \times id_Y) \circ \gamma_{X'Y}) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          & \quad = arr(\gamma_{XY} \circ (id_Y \times f)) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          & \quad = arr(\gamma_{XY}) \ggg arr(id_Y \times f) \ggg first_{X'}(g) \ggg arr(\gamma_{Y'X'}) \\
+          & \quad = arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(id_{Y'} \times f) \ggg arr(\gamma_{Y'X'}) \\
+          & \quad = arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr((id_{Y'} \times f) \circ \gamma_{Y'X'}) \\
+          & \quad = arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X} \circ (f \times id_{Y'})) \\
+          & \quad = arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg arr(f \times id_{Y'}) \\
+          & \quad = arr(\gamma_{XY}) \ggg first_{X}(g) \ggg arr(\gamma_{Y'X}) \ggg first_{Y'}(arr(f)) \\
+          & \quad = second_X(g) \ggg first_{Y'}(arr(f)).
+    \end{align*}
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{lemma}
+    Every Freyd category of the form $\catD, \catC, J: \catC \to \catD$ induces
+    an arrow.
+\end{lemma}
+\end{frame}
+
+\begin{frame}
+\begin{proof}
+\renewcommand{\qedsymbol}{}
+    To define $A: \opcat{\catC} \times \catC \to \catC$, set $A(X, Y) :=
+    \catD(X,Y)$. \\
+    \vspace{1em}
+    We first need to verify that $A$ can be made a monoid in the category
+    of $\catC$-enriched profunctors $\opcat{\catC} \times \catC \to \catC$.\\
+    \vspace{1em}
+    Set
+    \begin{itemize}
+        \item $arr(f) := Jf$,
+        \item $a \ggg b := b \circ_\catD a$.
+    \end{itemize}
+    The arrow laws (1)--(4) hold as associativity ((1)) is inherited from
+    $\catD$, and $J$ as a functor distributes ((2)) and preserves identities ((3),
+    (4)).
+\end{proof}
+\end{frame}
+
+\begin{frame}
+\begin{proof}[Proof (contd.)]
+$first$ can be given as
+    \[
+        (arr(\lambda p : X \times Z. (p, p))
+          \ggg ((arr(\pi_1) \ggg a) \ltimes X \times Z))
+          \ggg arr(id_Y \times \pi_2).
+    \]
+The checking of arrow laws (5)--(9) is omitted.
+\end{proof}
+\end{frame}
+
+\begin{frame}
+Combining the lemmas we get the
+\begin{theorem}[``Arrows are Freyd categories'']
+    Given any locally small category $\catC$ with finite products, there is a
+    one-to-one correspondence between arrows $A$ over $\catC$ and locally small
+    Freyd categories $\catC \to \catD$.
+\end{theorem}
+\end{frame}
