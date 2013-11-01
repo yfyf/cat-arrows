@@ -1,5 +1,81 @@
 \section{Arrows in Haskell}
 
+\frame{\tableofcontents[currentsection]}
+
 \begin{frame}
-    
+    \begin{itemize}
+        \item Monads take types to computations with result type
+        \item No parametrically structured input requirements
+        \item \emph{Arrows} as generalizations of computation $X$ to $Y$
+        \item Two-parametric, $(X, Y) \mapsto A(X, Y)$
+        \item Uniform access to structure on computation input
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{definition}[\texttt{Arrow} type class]
+        \begin{code}
+class Arrow a where
+  -- Embed pure computation
+  arr   :: (b -> c) -> a b c
+  -- Precomposition
+  (>>>) :: a b c -> a c d -> a b d
+  -- Left-side application
+  first :: a b c -> a (b, d) (c, d)
+
+  -- Right-side application (definable)
+  (second) :: a b c -> a (b, d) (c, d)
+  second f = arr swap >>> first f >>> arr swap
+
+  -- Non-commutative product (definable)
+  (***) :: a b c -> a b' c' -> a (b, b') (c, c')
+  f *** g = first f >>> second g
+        \end{code}
+    \end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{definition}[Arrow Laws]
+\begin{code}[numbers=left]
+              (a >>> b) >>> c == a >>> (b >>> c)
+                  arr (g . f) == arr f >>> arr g
+                  arr id >>> a == a
+                             a == a >>> arr id
+           first a >>> arr fst == arr fst >>> a
+    first a >>> arr (id *** f) == arr (id *** f) >>> first a
+ first (first a) >>> arr assoc == arr assoc >>> first a
+                 first (arr f) == arr (f *** id)
+               first (a >>> b) == first a >>> first b
+\end{code}
+Here \verb|assoc| flips tuples \verb|((a,b),c)| to \verb|(a,(b,c))|.
+\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}[Pure Functions as Arrows]
+\begin{code}
+instance Arrow (->) where
+    arr f   = f
+    f >>> g = g . f
+    first f = \symbol{92}(x, y) -> (f x, y)
+\end{code}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{example}[State Arrows]
+\begin{code}
+-- Define type
+newtype State s x y = ST ((s, x) -> (s, y))
+
+instance Arrow (State s) where
+    arr f         = ST (id *** f)
+    ST f >>> ST g = ST (g . f)
+    first (ST f)  = ST (assoc . (f *** id) . unassoc)
+
+-- A state changing arrow
+count :: State Int x y
+count = ST ((+1) *** id)
+\end{code}
+\end{example}
 \end{frame}
