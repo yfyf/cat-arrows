@@ -1,0 +1,148 @@
+\section{Categorical interpretation of arrows}
+
+\begin{frame}
+    \begin{center}\Huge Categorical interpretation of arrows\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large A different story from monads \end{center}
+    \begin{itemeyez}
+        \item[Monads] category theory $\to$ computation
+        \item[ ]
+        \item[Arrows] computation $\to$ category theory
+    \end{itemeyez}
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large Some history\end{center}
+    \begin{tabular}{rll}
+        1997 & (Power \& Robinson) & Premonoidal categories \\
+        1998 & (Hughes)  & Arrows \\
+        1999 & (Power \& Thielecke) & Freyd categories \\
+        2001 & (Paterson) & "Arrows are Freyd" \\
+        2006 & (Heunen \& Jacobs) & Arrows \emph{are} Freyd\\
+                                & & (also monoids) \\
+        2006 & (Hasuo \& Jacobs) & Freyd is Kliesli, for arrows \\
+        2009 & (Hasuo, Heunen, Jacobs) & Arrow = Freyd \\
+        2010 & (Asada) & Arrows are strong monads\\
+        2011 & (Atkey) & What are Arrows?
+    \end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{center}\Large From $\Hask$ to a CCC $\catC$\end{center}
+    \begin{itemize}
+        \item \verb|(Arrow a)| is first a mapping from types to types
+        \item \verb|(Arrow a) :: * -> (* -> *)| induces a subcategory of $\Hask$
+        \item $A(-, +): \opcat{\Hask} \times \Hask \to \Hask$
+        \item in general $A(-, +): \opcat{\catC} \times \catC \to \catC$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{center}\Large $A$ is a $\catC$-endo-profunctor\end{center}
+    \begin{itemize}
+        \item Profunctor: functor $\opcat{\catx{D}} \times \catC \to \Sets$
+        \item endo-profunctor: $\opcat{\catC} \times \catC \to \Sets$
+        \item $\catC$-endo-profunctor: $\opcat{\catC} \times \catC \to \catC$
+        \item $A(-, +): \opcat{\catC} \times \catC \to \catC$
+            \[
+                    A(f, g) = \lambda h. arr(f) \ggg h \ggg arr(g)
+            \]
+        \item $A$ is bifunctorial
+        \item $A$ is strong in $+$ and costrong in $-$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{center}\Large $A$ is a $\catC$-endo-profunctor\end{center}
+    \begin{itemize}
+        \item Profunctor: functor $\opcat{\catx{D}} \times \catC \to \Sets$
+        \item endo-profunctor: $\opcat{\catC} \times \catC \to \Sets$
+        \item $\catC$-endo-profunctor: $\opcat{\catC} \times \catC \to \catC$
+        \item $A(-, +): \opcat{\catC} \times \catC \to \catC$
+            \[
+                    A(f, g) = \lambda h. arr(f) \ggg h \ggg arr(g)
+            \]
+        \item $A$ is bifunctorial
+        \item $A$ is strong in $+$ and costrong in $-$
+        \item we will also use $B \leadsto C$ for $A(B, C)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}\Large The arrow operations\end{center}
+    \begin{itemize}
+        \item \verb|arr| is a family of maps
+            \[ arr_{XY}: (X \to Y) \mapsto (X \leadsto Y) \]
+        \item \verb|first| is a family of maps
+            \[ first_{XYZ}: (X \to Y) \mapsto (X \times Z \leadsto Y \times Z) \]
+        \item \verb|>>>| is a family of maps
+            \[ \ggg_{XYZ}: (X \leadsto Y) \times (Y \leadsto Z) \mapsto (X \leadsto Z) \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large The arrow operations \emph{are natural}\end{center}
+    \begin{itemize}
+        \item $arr_{XY}$'s form a nat. trans. $\catC(-, +) \Rightarrow A(-, +)$
+        \item $first_{XYZ}$'s are natural in $X$ and $Y$, giving a nat. trans.
+            \[ A(-, +) \Rightarrow \prod_{Z \in \catC} A(- \times Z, + \times
+            Z) \],
+        \item $\ggg_{XYZ}$'s are natural in $X$, $Z$ and dinatural in $Y$,
+            meaning
+            \[ \begin{diagram}[small]
+& & & X \leadsto P \times P \leadsto Y & & \\
+& \ruTo^{\text{id} \times (f \leadsto \text{id})} & & & \rdTo^{\ggg_{XPY}} & \\
+X \leadsto P \times Q \leadsto Y & & & & & X \leadsto Y \\
+& \rdTo^{(\text{id} \leadsto f) \times \text{id}} & & & \ruTo^{\ggg_{XQY}} & \\
+& & & X \leadsto Q \times Q \leadsto Y & &
+\end{diagram} \]
+commutes.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large $\ggg$ as a tensor\end{center}
+    We want
+\[ A \otimes A \overset{\ggg}{\longrightarrow} A. \]
+i.e.
+\[ (A \otimes A)(X, Y) \overset{\ggg}{\longrightarrow} A(X, Y) \]
+    so at first construct objects
+\[
+\coprod_{Z \in \catC} A(X, Z) \times A(Z, Y)
+ \overset{\ggg}{\longrightarrow} A(X, Y)
+\]
+or in polymorphic form
+\[
+    (X \leadsto z) \times (z \leadsto Y)
+ \overset{\ggg}{\longrightarrow} X \leadsto Y
+\]
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large $\ggg$ as a tensor\end{center}
+    Also need to make sure that
+    \[ (X \leadsto (P \to Q)) \ggg Q \leadsto Y = X \leadsto P \ggg ((P \to Q) \leadsto Y) \]
+    which we do by coequalising the (families of) maps
+\[
+    (X \leadsto P) \times (P \to Q) \times (Q \leadsto Y) \mapsto
+        (X \leadsto P) \times (P \leadsto Y)
+\]
+and
+\[
+    (X \leadsto P) \times (P \to Q) \times (Q \leadsto Y) \mapsto
+        (X \leadsto Q) \times (Q \leadsto Y)
+\]
+We then call the result $(A\otimes A)(X, Y)$ and by the dinaturality of $\ggg$
+it appears as the unique map $A \otimes A \to A$ by construction
+\end{frame}
+
+\begin{frame}
+\begin{center}\Large $\ggg$ as a tensor\end{center}
+    Finally, we can take $\catC(-, +)$ as the unit $I$
+    and the full monoidal structure is then
+    \[ A \otimes A \overset{\ggg}{\longrightarrow} A
+    \overset{arr}{\longleftarrow} I
+    \]
+\end{frame}
