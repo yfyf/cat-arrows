@@ -1,0 +1,28 @@
+\chapter{Conclusion}
+
+We have now seen arrows from the perspective of functional programming, and
+were able to relate the notion we encountered there with an independent
+categorical notion. How well do the two relate? In a sense, as we have seen,
+very well, but at the same time, the nature of programming language
+semantics in the real world is rarely as tidy and well-behaved as one could
+hope. To be able to look at the category of Haskell types and pure
+functions, one has to be generous with the language semantics, thereby
+modelling in an only \emph{morally} faithful way.
+
+Then again, as was briefly mentioned in section~\ref{sec:cat-arrows-hist} on
+the history of categorical interpretations of arrows, the argument given
+in~\cite{cat-semantics-arr} and followed in this report ignores the fact that
+in $\Hask$ one is dealing not with hom-sets, but hom-types. This is not an
+essential flaw, but as seen in~\cite{atkey-fix}, the construction becomes more
+complicated when taking hom-types into consideration.
+
+On the other hand, the situation with arrows is not so different from that
+of monads' appearance in functional programming, where similar amounts of
+generosity are required. This has not hindered a very fruitful
+exchange\footnote{An exchange which may be a bit one-sided.} between
+category theory and functional programming from growing ever more
+pronounced. While early publications such as~\cite{cats-and-cp} show that
+this exchange has been flourishing for some time already, the influx of
+categorical concepts into practical programming seems to have increased in
+recent years, with a growing number of libraries to support programming in
+category theory informed ways.
