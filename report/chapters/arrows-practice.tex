@@ -42,7 +42,6 @@ combining two computations \verb|a b c| and \verb|a c d| to a computation
 Under these preconditions it seems clear that any pure function should always
 fulfill the requirements for any kind of computation, so we require additionally
 an embedding of pure functions into computation types, arriving at type class
-
 \begin{code}
   class Computation a where
       pure   :: (b -> c) -> a b c
@@ -54,14 +53,12 @@ computations that this is not the only possible interface. And in fact,
 historically, it was not the first approach implemented in Haskell. As sketched
 in the introduction, the related but similar notion of monads was adopted from
 category theory with requirements described by something akin to
-
 \begin{code}
   class Monad m where
       return :: a -> m a
       fmap   :: (a -> b) -> m a -> m b
       (>>=)  :: m a -> (a -> m b) -> m b\textrm{,}
 \end{code}
-
 with \verb|return| describing how to turn values of type \verb|a| into
 computations of type \verb|m a|, \verb|fmap| explaining how \verb|m| is an
 endofunctor on the category of types, and \verb|(>>=)| a combinator for monads
@@ -103,9 +100,18 @@ addition of the function \verb|first|:
 
 This interface allows the definition of a kind of non-commutative product with
 signature,
-
 \begin{code}
-  (***) :: Arrow a => a b c -> a b' c' -> a (b, b') (c, c')\textrm{.}
+  (***) :: a b c -> a b' c' -> a (b, b') (c, c')\textrm{,}
+\end{code}
+after first defining a flipped equivalent of \verb|first|,
+\begin{code}
+  second :: a b c -> a (b, d) (c, d)
+  second a = arr swap >>> first a >>> arr swap
+    where swap (x, y) = (y, x)\textrm{.}
+\end{code}
+Then \verb|(***)| is
+\begin{code}
+  f *** g = first f >>> second g\textrm{.}
 \end{code}
 
 In addition to the constraints expressed by the type class, the semantics of the
@@ -132,15 +138,11 @@ and second position of a tuple, respectively.
 The obvious instance of \verb|Arrow| is the pure function type \verb|(->)|. With
 \verb|(.)| being the composition function for pure functions, functions of the
 adequate types can be given by
-
 \begin{code}
   instance Arrow (->) where
       arr f     = f
       (>>>) f g = (.) g f
       first f   = \symbol{92}(x, y) -> (f x, y)\textrm{,}
 \end{code}
-
 where the right-hand expression in the definition of \verb|first| is an
 anonymous function defined on pairs \verb|(x, y)|.
-
-% TODO Example of an actual NON-pure computation?
