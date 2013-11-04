@@ -34,7 +34,19 @@
 \maketitle
 
 \begin{abstract}
-    This is a report on Arrows.
+    In this report we try to provide context, intuition and a categorical view
+    of Hughes' Arrows. In the first chapter we discuss the history of modelling
+    effectful computations in functional languages and introduce Arrows as a
+    notion of structured computation, akin to that of a monad. We then take a
+    concrete look at arrow operations and laws as defined in Haskell.
+
+    In the following chapters we build up to a categorical interpretation of
+    arrows. We first introduce the notions of premonoidal and Freyd-
+    categories, again providing some context. We then translate the Haskell
+    definition of an Arrow to a general categorical definition. Finally,
+    following the work of Jacobs, Heunen and Hasuo, we explore the structure of
+    a categorical arrow and arrive at a correspondence result, formalising
+    the folklore statement "Arrows are Freyd categories".
 \end{abstract}
 
 \input{chapters/context}
